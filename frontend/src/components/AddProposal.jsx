@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
 const Modal = ({ modal, setModal, data, setdata }) => {
-    
+
     const [inpts,setInpts] = React.useState({
     title:"",
     date:"",
