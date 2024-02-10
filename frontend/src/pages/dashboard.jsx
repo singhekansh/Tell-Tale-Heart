@@ -31,7 +31,7 @@ function dashboard() {
       }--> `;
     });
 
-    // Add a placeholder node to indicate the end of the linked list
+    // Add a placeholder node to indicategorye the end of the linked list
     if (updates[updates.length - 1].status === "rejected")
       nodes.push("End(Rejected):::end_rej");
 
@@ -47,10 +47,10 @@ function dashboard() {
       date: "24th jan",
       bill: "bill",
       supplier: "supplier",
-      qty: "qty",
-      amt: "10000",
-      desc: "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
-      cat: "cat",
+      quantity: "quantity",
+      amount: "10000",
+      description: "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+      category: "category",
       section: "section",
       head: "head",
       fund: "fund",
@@ -58,7 +58,7 @@ function dashboard() {
       type: "type",
       purpose: "purpose",
       club: "KamandPrompt",
-      updated: [
+      updates: [
         [
           { user: "KP", date: "date", status: "approved", remark: "remark" },
           {
@@ -82,10 +82,10 @@ function dashboard() {
       date: "24th jan",
       bill: "bill",
       supplier: "supplier",
-      qty: "qty",
-      amt: "10000",
-      desc: "Project description for Foundation School Develop a detailed teaching aid for the topic “ Elements, Compounds and Mixtures” in Chemistry for students of Grade 6 in India, that can accompany the Central Board of Secondary Education (CBSE) curriculum. The teaching aid is based on a standard storyboard provided by the Foundation School and should be created using Microsoft PowerPoint.",
-      cat: "cat",
+      quantity: "quantity",
+      amount: "10000",
+      description: "Project descriptionription for Foundation School Develop a detailed teaching aid for the topic “ Elements, Compounds and Mixtures” in Chemistry for students of Grade 6 in India, that can accompany the Central Board of Secondary Educategoryion (CBSE) curriculum. The teaching aid is based on a standard storyboard provided by the Foundation School and should be created using Microsoft PowerPoint.",
+      category: "category",
       section: "section",
       head: "head",
       fund: "fund",
@@ -93,7 +93,7 @@ function dashboard() {
       type: "type",
       purpose: "purpose",
       club: "KamandPrompt",
-      updated: [
+      updates: [
         [
           { user: "KP", date: "date", status: "approved", remark: "remark" },
           {
@@ -202,7 +202,7 @@ function dashboard() {
                           </span>
                           <div className="flex gap-3">
                             <span className="text-base">
-                              Amount: ${val.amt}
+                              Amount: ${val.amount}
                             </span>
                             <span className="text-base">Date: {val.date}</span>
                           </div>
@@ -220,13 +220,13 @@ function dashboard() {
                     <AccordionContent>
                       <div className="flex flex-col gap-5">
                         <div className="flex flex-col gap-1">
-                          <span className="font-medium">Description</span>
-                          <span>{val.desc}</span>
+                          <span className="font-medium">descriptionription</span>
+                          <span>{val.description}</span>
                         </div>
                         <div className="flex flex-col gap-1">
                           <span className="font-medium">Status</span>
                           <div>
-                            {val.updated.map((update, index) => (
+                            {val.updates.map((update, index) => (
                               <div key={index} className="flex gap-3">
                                 <Mermaid
                                   chart={generateMermaidDefinition(update)}
