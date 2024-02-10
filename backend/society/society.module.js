@@ -13,6 +13,10 @@ const SocietySchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  secretary_uid: {
+    type: String,
+    required: true
+  }
   
 }, { timestamps: true });
 
