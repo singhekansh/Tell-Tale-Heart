@@ -8,12 +8,22 @@ import {
 import Loading from '@/components/Loading';
 
 const Home = React.lazy(() => import('@/pages/index'))
+const Login = React.lazy(() => import('@/pages/login'))
+const Dashboard = React.lazy(() => import('@/pages/dashboard'))
 const PageLoader = () => { return <div className='w-full h-screen flex items-center justify-center'><Loading/></div> }
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />
+  },
+  {
+    path: "/login",
+    element: <Login />
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />
   },
 ]);
 
