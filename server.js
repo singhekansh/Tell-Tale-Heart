@@ -1,13 +1,26 @@
-const express = require('express')
 require('dotenv').config()
-
-const app = express()
+const mongoose = require('mongoose')
+const app = require('./backend/app')
+const Database = require('./backend/db')
 const port = process.env.PORT || 3000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const db = new Database(process.env.MONGODB_URI);
+
+db.connect().catch((error) => {
+  console.log("Error connecting to database due to: ", error);
+});
+
+process.on("SIGINT", async () => {
+  try {
+    await mongoose.disconnect();
+    console.log("Disconnected from database!");
+    process.exit(0);
+  } catch (error) {
+    console.log("Error disconnecting from database due to: ", error);
+    process.exit(1);
+  }
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`)
 })
