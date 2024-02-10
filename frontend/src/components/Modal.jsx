@@ -36,7 +36,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
         <Dialog.Portal>
           <Dialog.Overlay className="bg-black opacity-50 data-[state=open]:animate-overlayShow fixed inset-0 " />
           <Dialog.Content
-            className={`data-[state=open]:animate-contentShow max-xl:min-w-[90vw] max-h-[700px] overflow-scroll overflow-x-hidden fixed min-w-[800px] left-[50%] top-[50%] flex translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none`}
+            className={`data-[state=open]:animate-contentShow max-xl:min-w-[90vw] max-h-[500px] overflow-scroll overflow-x-hidden fixed min-w-[800px] left-[50%] top-[50%] flex translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none`}
           >
             <>
               <div className="  rounded-lg bg-white h-full w-full pb-4 shadow-md">
