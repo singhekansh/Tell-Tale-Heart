@@ -9,6 +9,7 @@ import { useUserStore } from "./store/userStore";
 
 const Home = React.lazy(() => import('@/pages/index'))
 const Login = React.lazy(() => import('@/pages/login'))
+import Nav from "./components/Nav";
 const Dashboard = React.lazy(() => import('@/pages/dashboard'))
 
 const router = createBrowserRouter([
@@ -51,6 +52,9 @@ export default function App() {
 
 
   return (
-    <RouterProvider router={router} />
+    <>  
+      <Nav/>
+      <RouterProvider router={router} />
+    </>
   )
 }

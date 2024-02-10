@@ -40,8 +40,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
   const [toadd, setToadd] = React.useState(null);
 
   return (
-    <Dialog>
-      <DialogTrigger>Open</DialogTrigger>
+    <Dialog open={modal}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="pb-4">Add Club / Society</DialogTitle>
@@ -154,11 +153,6 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                     required
                   />
                 </div>
-                <div className="flex w-[100%] max-lg:flex-col mt-5 md:justify-end justify-center items-center pr-5 mb-10">
-                  <span className="flex  justify-center mx-5 cursor-pointer items-center gap-2 rounded-lg bg-[#0065C1] px-5 py-2 text-white shadow-md hover:shadow-blue-400">
-                    Save Changes
-                  </span>
-                </div>
                 <div className="h-1"></div>
               </div>
             ) : toadd === "Society" ? (
@@ -229,16 +223,29 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                     required
                   />
                 </div>
-                <div className="flex w-[100%] my-5 md:justify-end justify-center items-center pr-5">
-                  <span className="flex  justify-center mx-5 cursor-pointer items-center gap-2 rounded-lg bg-[#4682B4] px-5 py-2 text-white shadow-md hover:shadow-[#4682B4]">
-                    Save Changes
-                  </span>
-                </div>
-                <div className="h-1"></div>
               </div>
             ) : (
               ""
             )}
+
+            <div
+              onClick={() => setModal(false)}
+              className="flex w-[100%] mt-5 mb-2 md:justify-end justify-center items-center pr-5"
+            >
+              <span className="flex  justify-center mx-5 cursor-pointer items-center gap-2 rounded-lg bg-[#0065C1] px-5 py-2 text-white shadow-md hover:shadow-[#4682B4]">
+                Save Changes
+              </span>
+            </div>
+
+            <button
+              className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute z-50 right-[12px] top-[12px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
+              aria-label="Close"
+              onClick={() => {
+                setModal(false);
+              }}
+            >
+              <RxCross1 />
+            </button>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
