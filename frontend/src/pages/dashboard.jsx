@@ -3,7 +3,10 @@ import React from "react";
 import { useState } from "react";
 import { IoIosAddCircle } from "react-icons/io";
 import Mermaid from "react-mermaid2";
-import AddSociety from "../components/Addsociety";
+import AddSociety from "../components/AddSociety";
+import { MdPending } from "react-icons/md";
+import { MdOutlinePreview } from "react-icons/md";
+import { MdHistory } from "react-icons/md";
 
 import {
   Accordion,
@@ -126,60 +129,67 @@ function dashboard() {
             <div
               onClick={() => handleStatus(Status[1])}
               className={`mx-1 flex h-[80px] ${
-                status === Status[1] ? "bg-blue-100" : ""
+                status === Status[1] ? "bg-blue-200" : ""
               } w-[220px] cursor-pointer justify-between rounded-lg bg-white pl-3 pt-2 shadow-lg`}
             >
-              <div className="flex flex-col gap-1 py-1 pl-2">
+              <div className="flex flex-col gap-1 py-1 pl-2 w-full">
                 <span className=" text-2xl font-semibold text-slate-600">
                   0
                 </span>
-                <span className=" text-sm text-slate-400">{Status[1]}</span>
+                <div className="flex justify-between">
+                  <span className=" text-sm font-medium">{Status[1]}</span>
+                  <span className="mr-5 text-red-500 text-xl">
+                    <MdPending />
+                  </span>
+                </div>
               </div>
             </div>
             <div
               onClick={() => handleStatus(Status[2])}
               className={`mx-1 flex h-[80px] w-[220px] ${
-                status === Status[2] ? "bg-blue-100" : ""
+                status === Status[2] ? "bg-blue-200" : ""
               } cursor-pointer justify-between rounded-lg bg-white pl-3 pt-2 shadow-lg`}
             >
-              <div className="flex flex-col gap-1 py-1 pl-2">
+              <div className="flex flex-col gap-1 py-1 pl-2 w-full">
                 <span className=" text-2xl font-semibold text-slate-600">
                   0
                 </span>
-                <span className=" text-sm text-slate-400">{Status[2]}</span>
+                <div className="flex justify-between">
+                  <span className=" text-sm font-medium">{Status[2]}</span>
+                  <span className="mr-5 text-red-500 text-xl">
+                    <MdOutlinePreview />
+                  </span>
+                </div>
               </div>
             </div>
             <div
               onClick={() => handleStatus(Status[3])}
               className={`mx-1 flex h-[80px] w-[220px] ${
-                status === Status[3] ? "bg-blue-100" : ""
+                status === Status[3] ? "bg-blue-200" : ""
               } cursor-pointer justify-between rounded-lg bg-white pl-3 pt-2 shadow-lg`}
             >
-              <div className="flex flex-col gap-1 py-1 pl-2">
+              <div className="flex w-full flex-col gap-1 py-1 pl-2">
                 <span className=" text-2xl font-semibold text-slate-600">
                   0
                 </span>
-                <span className=" text-sm text-slate-400">{Status[3]}</span>
+                <div className="flex justify-between">
+                  <span className=" text-sm font-medium">{Status[3]}</span>
+                  <span className="mr-5 text-red-500 text-xl">
+                    <MdHistory />
+                  </span>
+                </div>
               </div>
             </div>
           </div>
           {
             <>
               {/* // if user Club */}
-              {/* <div
+              <div
                 onClick={() => setProposalModal(true)}
                 className=" flex flex-col items-center justify-center cursor-pointer text-blue-500 text-4xl"
               >
                 <IoIosAddCircle />
                 <span className="text-black text-sm">Create New Proposal</span>
-              </div> */}
-              {/* // if user is Dean */}
-              <div
-                onClick={() => setSocietyModal(true)}
-                className=" flex flex-col items-center justify-center cursor-pointer text-blue-500 text-4xl"
-              >
-                <IoIosAddCircle />
-                <span className="text-black text-sm">Add New Club/Society</span>
               </div>
             </>
           }

@@ -1,4 +1,4 @@
-[
+const societies = [
   {
     "name": "Technical Society",
     "budget": "100000",
@@ -24,3 +24,5 @@
   "secretary_uid":"research@gmail.com"
 }
 ]
+
+export default societies; 

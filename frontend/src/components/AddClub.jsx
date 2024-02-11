@@ -10,8 +10,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-
 const Modal = ({ modal, setModal, data, setdata }) => {
+
   const handleInputChange = (name, value) => {
     if (name === "category") setToadd(value);
     setInpts((prevInpts) => ({
@@ -26,17 +26,40 @@ const Modal = ({ modal, setModal, data, setdata }) => {
     <Dialog open={modal}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="pb-4">Add Society</DialogTitle>
+          <DialogTitle className="pb-4">Add Club / Society</DialogTitle>
           <DialogDescription className="overflow-y-auto">
             <div className="max-h-[60vh]">
               <div>
+                <div className="mb-5 md:w-full px-4">
+                  <label
+                    htmlFor="subCategory"
+                    className="text-md mb-2 block flex-grow pl-1 font-medium text-gray-900 "
+                  >
+                    Which Society it belongs to?{" "}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    onChange={(e) =>
+                      handleInputChange("subCategory", e.target.value)
+                    }
+                    className="block w-full p-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="">Select Society</option>
+                    <option value="Literary">Literary Society</option>
+                    <option value="Sports">Sports Society</option>
+                    <option value="Cultural">Cultural Society</option>
+                    <option value="Technical">Technical Society</option>
+                    <option value="Research">Research Society</option>
+                  </select>
+                </div>
+              </div>
+              <div>
                 <div className="mb-5  flex-grow px-4">
                   <label
-                    htmlFor='name'
+                    htmlFor="name"
                     className="text-md mb-2 block pl-1 font-medium text-gray-900"
                   >
-                    Name of the Society
-                    <span className="text-red-500">*</span>
+                    Name of the Club <span className="text-red-500">*</span>
                   </label>
                   <Input
                     onChange={(e) => handleInputChange("name", e.target.value)}
@@ -58,7 +81,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                   />
                 </div>
               </div>
-              <div className="mb-5  flex-grow px-4">
+              <div className="mb-5 flex-grow px-4">
                 <label
                   htmlFor="fa-mail"
                   className="text-md mb-2 block pl-1 font-medium text-gray-900"
@@ -73,21 +96,22 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                   required
                 />
               </div>
-              <div className="mb-5 flex-grow  px-4">
+              <div className="mb-5 flex-grow px-4">
                 <label
-                  htmlFor="secy"
+                  htmlFor="coordi"
                   className="text-md mb-2 block pl-1 font-medium text-gray-900"
                 >
-                  Society Secretary Email{" "}
+                  Club Co-ordinator's Email{" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <Input
-                  onChange={(e) => handleInputChange("secy", e.target.value)}
+                  onChange={(e) => handleInputChange("coordi", e.target.value)}
                   type="email"
                   placeholder="Enter your email"
                   required
                 />
               </div>
+              <div className="h-1"></div>
             </div>
 
             <div

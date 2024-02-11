@@ -1,4 +1,4 @@
-[
+const clubs = [
 	{
         "name": "KamandPrompt",
         "society": "Technical Society",
@@ -119,3 +119,5 @@
         "coordi_uid":"quriosity@gmail.com"
 	}
 ]
+
+export default clubs
