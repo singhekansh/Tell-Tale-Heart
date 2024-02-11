@@ -130,7 +130,7 @@ function dashboard() {
               onClick={() => handleStatus(Status[1])}
               className={`mx-1 flex h-[80px] ${
                 status === Status[1] ? "bg-blue-200" : ""
-              } w-[220px] cursor-pointer justify-between rounded-lg bg-white pl-3 pt-2 shadow-lg`}
+              } w-[220px] cursor-pointer justify-between rounded-lg bg-white pl-3 pt-2 shadow-lg `}
             >
               <div className="flex flex-col gap-1 py-1 pl-2 w-full">
                 <span className=" text-2xl font-semibold text-slate-600">

@@ -18,15 +18,16 @@ function App() {
   return (
     <div className="wrapper">
       <div className="h-[90vh] bg-[url('images/bg-cover.jpg')] bg-cover bg-bottom"></div>
-      <div className="h-[15vh] relative font-bold text-[#dadada] text-[2rem] max-sm:h-[10vh]">
-        <div class='font-["Poppins"] text-orange-600 pt-4'><marquee scrollamount="12">🟠 Student Gymkhana - IIT Mandi 🟠</marquee>
-        </div>
+      <div className="h-[15vh] relative font-bold text-[#dadada] text-[2rem] max-sm:h-[10vh] w-full ">
+        {/* <div class='font-["Gothic A1"] text-[#001d3f]'> Student Gymkhana - IIT Mandi 
+        </div> */}
+        <div className="h-[0.01rem] bg-[#001d3f] w-full absolute bottom-4"></div>
       </div>
       <div className="h-[50vh] bg-[#001d3f] flex max-lg:flex-col max-lg:h-[80vh] items-center justify-around">
         <div>
           <img src="images/newlogo.png" className="h-[30vh] px-8"></img>
         </div>
-        <div className="text-white font-mono max-lg:justify-center max-lg:items-center flex flex-col flex-wrap gap-4">
+        <div className="text-white font-['Gothic A1'] max-lg:justify-center max-lg:items-center flex flex-col flex-wrap gap-4">
           <div className="text-[2rem]">Contact Us</div>
           <div className="flex flex-col max-lg:items-center">
             <div className="flex items-center gap-2">

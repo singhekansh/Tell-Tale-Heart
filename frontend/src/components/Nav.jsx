@@ -38,7 +38,7 @@ function Nav() {
           <img src="images/logo_small.png" className="h-[3.5rem]"></img>
         </a>
       </div>
-      <div className="text-2xl font- max-lg:text-base font-['Poppins'] text-orange-600">
+      <div className="text-2xl font- max-lg:text-base font-['Gothic A1'] text-[#001d3f] font-bold">
         Student Gymkhana - IIT Mandi
       </div>
       <div className="flex items-center gap-10">
@@ -64,13 +64,13 @@ function Nav() {
             </DropdownMenuContent>
           </DropdownMenu>
         )}
-        <div className="flex flex-col items-center justify-center mx-8 mt-2 space-y-2">
+        <div className="flex flex-col items-center justify-center mx-8 space-y-2">
           {!user && (
             <button
               onClick={googleLogin}
-              className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+              className="relative inline-flex items-center justify-center p-0.5 mb-2 mx-2 mt-2 overflow-hidden text-base font-medium rounded-[0.9rem] group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
             >
-              <span className="relative px-5 py-2 transition-all ease-in duration-200 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0 flex items-center gap-2 font-mono font-bold">
+              <span className="relative px-5 py-2 transition-all ease-in duration-200 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0 flex items-center gap-2 font-bold font-['Gothic A1'] rounded-xl">
                 <span className="">
                   <FaGoogle />
                 </span>{" "}
