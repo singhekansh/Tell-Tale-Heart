@@ -15,7 +15,7 @@ export const useClubStore = create((set) => ({
   },
   createClubs: async (data) => {
     try {
-      let newClub = (await ApiWithAuth.post('/clubs')).data.data
+      let newClub = (await ApiWithAuth.post('/clubs', data)).data.data
       set((state) => ({ clubs: [newClub, ...state]}))
     } catch (err) {
       toast({
@@ -26,7 +26,7 @@ export const useClubStore = create((set) => ({
   },
   updateClubs: async (id, data) => {
     try {
-      let newUpdatedClub = (await ApiWithAuth.put(`/clubs/${id}`)).data.data
+      let newUpdatedClub = (await ApiWithAuth.put(`/clubs/${id}`, data)).data.data
       set((state) => {
         let updatedClubs = state.clubs.filter((curr_club) => curr_club._id !== id)
         return { clubs: [newUpdatedClub, ...updatedClubs] }
