@@ -7,7 +7,7 @@ export const useClubStore = create((set) => ({
   getClubs: async () => {
     let clubs = []
     try {
-      clubs = (await ApiWithAuth.get('/clubs')).data.data
+      clubs = (await ApiWithAuth.get('/club')).data.data
       set((state) => clubs)
     } catch(err) {
       console.error('Failed to load clubs', err.response.data.message)
@@ -15,7 +15,7 @@ export const useClubStore = create((set) => ({
   },
   createClubs: async (data) => {
     try {
-      let newClub = (await ApiWithAuth.post('/clubs', data)).data.data
+      let newClub = (await ApiWithAuth.post('/club', data)).data.data
       set((state) => ({ clubs: [newClub, ...state]}))
     } catch (err) {
       toast({
@@ -26,7 +26,7 @@ export const useClubStore = create((set) => ({
   },
   updateClubs: async (id, data) => {
     try {
-      let newUpdatedClub = (await ApiWithAuth.put(`/clubs/${id}`, data)).data.data
+      let newUpdatedClub = (await ApiWithAuth.put(`/club/${id}`, data)).data.data
       set((state) => {
         let updatedClubs = state.clubs.filter((curr_club) => curr_club._id !== id)
         return { clubs: [newUpdatedClub, ...updatedClubs] }
@@ -40,7 +40,7 @@ export const useClubStore = create((set) => ({
   },
   deleteClub: async (id) => {
     try {
-      await ApiWithAuth.delete(`/clubs/${id}`)
+      await ApiWithAuth.delete(`/club/${id}`)
       set((state) => { clubs: state.clubs.filter((curr_club) => curr_club._id !== id) })
     } catch(err) {
       toast({
