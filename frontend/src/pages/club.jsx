@@ -134,9 +134,10 @@ export default function ClubTable() {
   const [clubmodal, setClubModal] = useState(false);
 
   return (
-    <div className="card">
+    <div className="card rounded-md p-10">
       <AddClub modal={clubmodal} setModal={setClubModal} />
       <DataTable
+        className=" rounded-md"
         value={club}
         dataKey="id"
         filters={filters}
@@ -187,7 +188,7 @@ export default function ClubTable() {
           <DialogHeader>
             <DialogTitle className="pb-4">
               Are you sure you want to delete this Club ?
-            </DialogTitle>
+            </DialogTitle> 
             <DialogDescription className="overflow-y-auto  max-h-[500px]">
               <div className="flex gap-3">
                 <Button variant="destructive" onClick={handleFinalDelete}>
@@ -213,7 +214,7 @@ export default function ClubTable() {
 
       <Dialog open={editModal}>
         <DialogContent>
-          <DialogHeader>
+          <DialogHeader>  
             <DialogTitle className="pb-4">
               Edit Club Details
             </DialogTitle>
@@ -246,7 +247,7 @@ export default function ClubTable() {
                   </div>
                 </div>
                 <div>
-                  <div className="mb-5  flex-grow px-4">
+                  <div className="mb-5 flex-grow px-4">
                     <label
                       htmlFor="name"
                       className="text-md mb-2 block pl-1 font-medium text-gray-900"

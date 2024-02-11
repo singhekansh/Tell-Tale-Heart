@@ -133,7 +133,7 @@ export default function SocietyTable() {
   const [societymodal, setSocietyModal] = useState(false);
 
   return (
-    <div className="card">
+    <div className="card rounded-md p-10" >
       <AddSociety modal={societymodal} setModal={setSocietyModal} />
       <DataTable
         value={society}
