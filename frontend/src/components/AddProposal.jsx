@@ -42,11 +42,11 @@ const Modal = ({ modal, setModal, data, setdata }) => {
     <Dialog open={modal}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="pb-4">Create Proposal</DialogTitle>
+          <DialogTitle className="pb-4 px-5">Create Proposal</DialogTitle>
           <DialogDescription className="overflow-y-auto scrollbar max-h-[500px]">
             <>
               <div className="rounded-lg bg-white w-full pb-4 shadow-md">
-                <div className="border-b border-slate-200 pb-2 pl-5 pt-5 text-xl font-medium">
+                <div className="pb-2 pt-5 text-xl font-medium px-5">
                   Proposal Details
                 </div>
                 <div>

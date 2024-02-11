@@ -26,7 +26,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
     <Dialog open={modal}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="pb-4">Add Society</DialogTitle>
+          <DialogTitle className="pb-4 px-5">Add Society</DialogTitle>
           <DialogDescription className="overflow-y-auto">
             <div className="max-h-[60vh]">
               <div>

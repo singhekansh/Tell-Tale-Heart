@@ -8,7 +8,7 @@ import { MdOutlinePreview } from "react-icons/md";
 import { MdHistory } from "react-icons/md";
 import { Switch } from "@/components/ui/switch";
 import Node from "../components/Node";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 import {
   Accordion,
@@ -346,7 +346,7 @@ function dashboard() {
                   key={index}
                   className="flex flex-col gap-5 px-3 border my-2 rounded-md bg-white border-gray-200"
                 >
-                  <Accordion type="single" collapsible>
+                  <Accordion type="single z-0" collapsible>
                     <AccordionItem value="item-1">
                       <AccordionTrigger className="hover:no-underline">
                         <div className="flex w-full mr-5 justify-between items-center">
@@ -376,9 +376,23 @@ function dashboard() {
                               <span className="text-md">{val.club}</span>
                             </div>
                           </div>
-                          <div className="flex gap-2">
-                            <Button variant="destructive">Reject</Button>
-                            <Button variant="secondary">Approve</Button>
+                          <div className="flex gap-2 z-50">
+                            <Button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                              variant="destructive"
+                            >
+                              Reject
+                            </Button>
+                            <Button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                              variant="secondary"
+                            >
+                              Approve
+                            </Button>
                           </div>
                         </div>
                       </AccordionTrigger>

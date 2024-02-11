@@ -26,7 +26,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
     <Dialog open={modal}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="pb-4">Add Club</DialogTitle>
+          <DialogTitle className="pb-4 px-5">Add Club</DialogTitle>
           <DialogDescription className="overflow-y-auto scrollbar">
             <div className="max-h-[60vh]">
               <div>
