@@ -9,6 +9,7 @@ import { MdHistory } from "react-icons/md";
 import { Switch } from "@/components/ui/switch";
 import Node from "../components/Node";
 import { Button } from "@/components/ui/button";
+import { useUserStore } from "@/store/userStore";
 
 import {
   Accordion,
@@ -22,7 +23,8 @@ function dashboard() {
   const [status, setStatus] = useState(Status[1]);
   const [proposalmodal, setProposalModal] = useState(false);
   const [societymodal, setSocietyModal] = useState(false);
-
+  const user = useUserStore((state) => state.user);
+  console.log(user);
   const handleStatus = (val) => {
     setStatus(val);
   };
@@ -58,14 +60,16 @@ function dashboard() {
               user: "KP",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "1",
               user: "KP_sec",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "2",
@@ -80,7 +84,24 @@ function dashboard() {
               user: "TECH_FA",
               created_at: "date",
               status: "rejected",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "4",
+              user: "CSAP",
+              created_at: "date",
+              status: "in review",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "5",
+              user: "DEAN",
+              created_at: "date",
+              status: "in review",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
           ],
         },
@@ -94,33 +115,53 @@ function dashboard() {
               user: "KP",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "1",
               user: "KP_sec",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "2",
               user: "KP_FA",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "3",
               user: "TECH_FA",
               created_at: "date",
-              status: "rejected",
-              remark: "remark",
+              status: "approved",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
+            {
+              _id: "4",
+              user: "CSAP",
+              created_at: "date",
+              status: "rejected",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "5",
+              user: "DEAN",
+              created_at: "date",
+              status: "in review",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            }
           ],
         },
         {
-          _id: "2",
+          _id: "1",
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
           progress: [
@@ -129,29 +170,49 @@ function dashboard() {
               user: "KP",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "1",
               user: "KP_sec",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "2",
               user: "KP_FA",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "3",
               user: "TECH_FA",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
+            {
+              _id: "4",
+              user: "CSAP",
+              created_at: "date",
+              status: "approved",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "5",
+              user: "DEAN",
+              created_at: "date",
+              status: "in review",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            }
           ],
         },
       ],
@@ -184,33 +245,53 @@ function dashboard() {
               user: "KP",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "1",
               user: "KP_sec",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "2",
               user: "KP_FA",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "3",
               user: "TECH_FA",
               created_at: "date",
               status: "rejected",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "4",
+              user: "CSAP",
+              created_at: "date",
+              status: "in review",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "5",
+              user: "DEAN",
+              created_at: "date",
+              status: "in review",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
           ],
         },
         {
-          _id: "0",
+          _id: "1",
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
           progress: [
@@ -219,28 +300,48 @@ function dashboard() {
               user: "KP",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "1",
               user: "KP_sec",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "2",
               user: "KP_FA",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
               _id: "3",
               user: "TECH_FA",
               created_at: "date",
               status: "approved",
-              remark: "remark",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "4",
+              user: "CSAP",
+              created_at: "date",
+              status: "approved",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "5",
+              user: "DEAN",
+              created_at: "date",
+              status: "in review",
+               remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
           ],
         },
@@ -308,7 +409,7 @@ function dashboard() {
               </div>
             </div>
           </div>
-          {
+          {user && user.email === "KamandPromptiitmandi@gmail.com" && (
             <>
               {/* // if user Club */}
               <div
@@ -319,7 +420,7 @@ function dashboard() {
                 <span className="text-black text-sm">Create New Proposal</span>
               </div>
             </>
-          }
+          )}
         </div>
 
         <div className="flex w-[100%] flex-col rounded-lg p-3 border bg-[#F8F8F8] shadow-lg">
@@ -376,24 +477,27 @@ function dashboard() {
                               <span className="text-md">{val.club}</span>
                             </div>
                           </div>
-                          <div className="flex gap-2 z-50">
-                            <Button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                              }}
-                              variant="destructive"
-                            >
-                              Reject
-                            </Button>
-                            <Button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                              }}
-                              variant="secondary"
-                            >
-                              Approve
-                            </Button>
-                          </div>
+                          {user &&
+                            user.email === "studentsdean554@gmail.com" && (
+                              <div className="flex gap-2 z-50">
+                                <Button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                  }}
+                                  variant="destructive"
+                                >
+                                  Reject
+                                </Button>
+                                <Button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                  }}
+                                  variant="secondary"
+                                >
+                                  Approve
+                                </Button>
+                              </div>
+                            )}
                         </div>
                       </AccordionTrigger>
                       <AccordionContent>
