@@ -6,7 +6,6 @@ import { useUserStore } from "./store/userStore";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 const Home = React.lazy(() => import("@/pages/index"));
-const Login = React.lazy(() => import("@/pages/login"));
 import Nav from "./components/Nav";
 const Dashboard = React.lazy(() => import("@/pages/dashboard"));
 const Club = React.lazy(() => import("@/pages/club"));
@@ -18,10 +17,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
   },
   {
     path: "/dashboard",

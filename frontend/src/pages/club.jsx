@@ -66,6 +66,7 @@ export default function ClubTable() {
     name: { value: null },
     society: { value: null },
     budget: { value: null },
+    spent: { value: null },
     fa_uid: { value: null },
     coordi_uid: { value: null },
     update: { value: null },
@@ -73,13 +74,13 @@ export default function ClubTable() {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-between pr-12">
+      <div className="flex justify-between pr-5">
         <input
           type="text"
           value={filters.global.value || ""}
           onChange={(e) => onGlobalFilterChange(e.target.value)}
           placeholder="Global Search"
-          className="p-inputtext p-component p-filled"
+          className="p-inputtext p-component p-filled px-3"
         />
         <div
           onClick={() => setClubModal(true)}
@@ -159,6 +160,12 @@ export default function ClubTable() {
           header="Budget"
           filter
           filterPlaceholder="Search by budget"
+        />
+        <Column
+          field="spent"
+          header="Spent"
+          filter
+          filterPlaceholder="Search by spent"
         />
         <Column
           field="fa_uid"

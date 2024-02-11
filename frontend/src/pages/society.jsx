@@ -65,6 +65,7 @@ export default function SocietyTable() {
     global: { value: null, matchMode: "contains" },
     name: { value: null },
     budget: { value: null },
+    spent: { value: null },
     fa_uid: { value: null },
     secretary_uid: { value: null },
     update: { value: null },
@@ -72,13 +73,13 @@ export default function SocietyTable() {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-between pr-12">
+      <div className="flex justify-between pr-7">
         <input
           type="text"
           value={filters.global.value || ""}
           onChange={(e) => onGlobalFilterChange(e.target.value)}
           placeholder="Global Search"
-          className="p-inputtext p-component p-filled"
+          className="p-inputtext px-3 p-component p-filled"
         />
         <div
           onClick={() => setSocietyModal(true)}
@@ -152,6 +153,12 @@ export default function SocietyTable() {
           header="Budget"
           filter
           filterPlaceholder="Search by budget"
+        />
+        <Column
+          field="spent"
+          header="Spent"
+          filter
+          filterPlaceholder="Search by spent"
         />
         <Column
           field="fa_uid"

@@ -7,6 +7,15 @@ import AddSociety from "../components/AddSociety";
 import { MdPending } from "react-icons/md";
 import { MdOutlinePreview } from "react-icons/md";
 import { MdHistory } from "react-icons/md";
+import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
+import { IoIosWarning } from "react-icons/io";
+import { MdCancel } from "react-icons/md";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 import {
   Accordion,
@@ -129,8 +138,8 @@ function dashboard() {
             <div
               onClick={() => handleStatus(Status[1])}
               className={`mx-1 flex h-[80px] ${
-                status === Status[1] ? "bg-blue-200" : ""
-              } w-[220px] cursor-pointer justify-between rounded-lg bg-white pl-3 pt-2 shadow-lg`}
+                status === Status[1] ? "bg-blue-300" : ""
+              } w-[220px] cursor-pointer justify-between rounded-lg bg-[#F8F8F8] transition-all duration-400  pl-3 pt-2 shadow-lg`}
             >
               <div className="flex flex-col gap-1 py-1 pl-2 w-full">
                 <span className=" text-2xl font-semibold text-slate-600">
@@ -147,8 +156,8 @@ function dashboard() {
             <div
               onClick={() => handleStatus(Status[2])}
               className={`mx-1 flex h-[80px] w-[220px] ${
-                status === Status[2] ? "bg-blue-200" : ""
-              } cursor-pointer justify-between rounded-lg bg-white pl-3 pt-2 shadow-lg`}
+                status === Status[2] ? "bg-blue-300" : ""
+              } cursor-pointer justify-between rounded-lg bg-[#F8F8F8] transition-all duration-400  pl-3 pt-2 shadow-lg`}
             >
               <div className="flex flex-col gap-1 py-1 pl-2 w-full">
                 <span className=" text-2xl font-semibold text-slate-600">
@@ -165,8 +174,8 @@ function dashboard() {
             <div
               onClick={() => handleStatus(Status[3])}
               className={`mx-1 flex h-[80px] w-[220px] ${
-                status === Status[3] ? "bg-blue-200" : ""
-              } cursor-pointer justify-between rounded-lg bg-white pl-3 pt-2 shadow-lg`}
+                status === Status[3] ? "bg-blue-300" : ""
+              } cursor-pointer justify-between rounded-lg bg-[#F8F8F8] transition-all duration-400 pl-3 pt-2 shadow-lg`}
             >
               <div className="flex w-full flex-col gap-1 py-1 pl-2">
                 <span className=" text-2xl font-semibold text-slate-600">
@@ -260,10 +269,36 @@ function dashboard() {
                           <span className="font-medium">Status</span>
                           <div>
                             {val.updates.map((update, index) => (
-                              <div key={index} className="flex gap-3">
-                                <Mermaid
-                                  chart={generateMermaidDefinition(update)}
-                                />
+                              <div key={index} className="flex">
+                                {update.map((data, i) => (
+                                  <>
+                                    <Popover>
+                                      <PopoverTrigger className="flex items-center">
+                                        <div className="flex relative flex-col gap-1 border p-3 rounded-md">
+                                          <span>Role: {data.user}</span>
+                                          <span>Date: {data.date}</span>
+                                          <div className=" absolute -top-2 -right-2">
+                                            {data.status === "approved" ? (
+                                              <IoCheckmarkDoneCircleSharp className="text-lg text-green-700" />
+                                            ) : data.status === 'rejected' ? 
+                                            (
+                                              <MdCancel className="text-lg text-red-600"/>
+                                            ): <IoIosWarning className="text-lg text-yellow-400" />}
+                                          </div>
+                                        </div>
+                                        {
+                                          i < update.length - 1 ? data.status == 'approved' ? <img className=" font-bold" src="images/iconmonstr-arrow-right-thin.svg"></img> : <img className="h-8 w-8" src="images/right.png"></img>: ''
+                                        }
+                                      </PopoverTrigger>
+                                      <PopoverContent>
+                                        <div className="font-semibold">
+                                          Remarks
+                                        </div>
+                                        <p>{data.remark}</p>
+                                      </PopoverContent>
+                                    </Popover>
+                                  </>
+                                ))}
                               </div>
                             ))}
                           </div>
