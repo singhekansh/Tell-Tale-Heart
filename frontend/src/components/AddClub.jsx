@@ -26,8 +26,8 @@ const Modal = ({ modal, setModal, data, setdata }) => {
     <Dialog open={modal}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="pb-4">Add Club / Society</DialogTitle>
-          <DialogDescription className="overflow-y-auto">
+          <DialogTitle className="pb-4">Add Club</DialogTitle>
+          <DialogDescription className="overflow-y-auto scrollbar">
             <div className="max-h-[60vh]">
               <div>
                 <div className="mb-5 md:w-full px-4">
@@ -98,10 +98,10 @@ const Modal = ({ modal, setModal, data, setdata }) => {
               </div>
               <div className="mb-5 flex-grow px-4">
                 <label
-                  htmlFor="coordi"
+                  htmlFor="club"
                   className="text-md mb-2 block pl-1 font-medium text-gray-900"
                 >
-                  Club Co-ordinator's Email{" "}
+                  Club's Email{" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <Input
@@ -111,16 +111,14 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                   required
                 />
               </div>
-              <div className="h-1"></div>
-            </div>
-
             <div
               onClick={() => setModal(false)}
-              className="flex w-[100%] mt-5 mb-2 md:justify-end justify-center items-center pr-5"
+              className="flex w-[100%] mt-5 mb-2 md:justify-end justify-center items-center "
             >
               <span className="flex  justify-center mx-5 cursor-pointer items-center gap-2 rounded-lg bg-[#0065C1] px-5 py-2 text-white shadow-md hover:shadow-[#4682B4]">
                 Save Changes
               </span>
+            </div>
             </div>
 
             <button

@@ -18,10 +18,12 @@ function App() {
   return (
     <div className="wrapper">
       <div className="h-[90vh] bg-[url('images/bg-cover.jpg')] bg-cover bg-bottom"></div>
-      <div className="h-[15vh] relative font-bold text-[#dadada] text-[2rem] max-sm:h-[10vh] w-full ">
-        {/* <div class='font-["Gothic A1"] text-[#001d3f]'> Student Gymkhana - IIT Mandi 
-        </div> */}
-        <div className="h-[0.01rem] bg-[#001d3f] w-full absolute bottom-4"></div>
+      <div className="h-[15vh] relative font-bold flex items-center  text-[#dadada] text-[2rem] max-sm:h-[10vh]">
+        <div class='font-["Poppins"] text-orange-600 w-full'>
+          <marquee scrollamount="12">
+            🟠 Student Gymkhana - IIT Mandi 🟠
+          </marquee>
+        </div>
       </div>
       <div className="h-[50vh] bg-[#001d3f] flex max-lg:flex-col max-lg:h-[80vh] items-center justify-around">
         <div>
@@ -32,8 +34,7 @@ function App() {
           <div className="flex flex-col max-lg:items-center">
             <div className="flex items-center gap-2">
               <FaSquarePhone />
-              Phone :
-              <a href="tel:01905267000">01905267000</a>
+              Phone :<a href="tel:01905267000">01905267000</a>
             </div>
             <div className="flex items-center gap-2">
               <IoMdMail />

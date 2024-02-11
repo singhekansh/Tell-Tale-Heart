@@ -22,6 +22,7 @@
     "express": "^4.18.2",
     "express-middleware": "^3.4.2",
     "express-validator": "^7.0.1",
+    "firebase-admin": "^12.0.0",
     "mongoose": "^8.1.1"
   },
   "devDependencies": {
