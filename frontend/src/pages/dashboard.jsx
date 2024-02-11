@@ -2,20 +2,13 @@ import AddProposal from "../components/AddProposal";
 import React from "react";
 import { useState } from "react";
 import { IoIosAddCircle } from "react-icons/io";
-import Mermaid from "react-mermaid2";
 import AddSociety from "../components/AddSociety";
 import { MdPending } from "react-icons/md";
 import { MdOutlinePreview } from "react-icons/md";
 import { MdHistory } from "react-icons/md";
-import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
-import { IoIosWarning } from "react-icons/io";
-import { MdCancel } from "react-icons/md";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Switch } from "@/components/ui/switch";
+import Node from "../components/Node";
+import { Button } from "@/components/ui/button"
 
 import {
   Accordion,
@@ -35,26 +28,7 @@ function dashboard() {
   };
 
   const [data, setData] = useState([]);
-
-  const generateMermaidDefinition = (updates) => {
-    const nodes = updates.flat().map((update, index) => {
-      const { user, date, status, remark } = update;
-
-      return `  ${user}(User: ${user}<br/> Date:${date} ):::${
-        status === "rejected" ? "rej" : "app"
-      }--> `;
-    });
-
-    // Add a placeholder node to indicategorye the end of the linked list
-    if (updates[updates.length - 1].status === "rejected")
-      nodes.push("End(Rejected):::end_rej");
-
-    return `flowchart LR\n${nodes.join("")} 
-        classDef rej fill:#E53E3E 
-        classDef app fill:#68D391
-        classDef end_rej fill:#f39c12 `;
-  };
-
+  const [showHist, setShowHist] = useState(false);
   const proposals = [
     {
       title: "New",
@@ -74,22 +48,112 @@ function dashboard() {
       purpose: "purpose",
       club: "KamandPrompt",
       updates: [
-        [
-          { user: "KP", date: "date", status: "approved", remark: "remark" },
-          {
-            user: "KP_sec",
-            date: "date",
-            status: "approved",
-            remark: "remark",
-          },
-          { user: "KP_FA", date: "date", status: "approved", remark: "remark" },
-          {
-            user: "TECH_FA",
-            date: "date",
-            status: "rejected",
-            remark: "remark",
-          },
-        ],
+        {
+          _id: "0",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          progress: [
+            {
+              _id: "0",
+              user: "KP",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "1",
+              user: "KP_sec",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "2",
+              user: "KP_FA",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "3",
+              user: "TECH_FA",
+              created_at: "date",
+              status: "rejected",
+              remark: "remark",
+            },
+          ],
+        },
+        {
+          _id: "1",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          progress: [
+            {
+              _id: "0",
+              user: "KP",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "1",
+              user: "KP_sec",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "2",
+              user: "KP_FA",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "3",
+              user: "TECH_FA",
+              created_at: "date",
+              status: "rejected",
+              remark: "remark",
+            },
+          ],
+        },
+        {
+          _id: "2",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          progress: [
+            {
+              _id: "0",
+              user: "KP",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "1",
+              user: "KP_sec",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "2",
+              user: "KP_FA",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "3",
+              user: "TECH_FA",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+          ],
+        },
       ],
     },
     {
@@ -100,7 +164,7 @@ function dashboard() {
       quantity: "quantity",
       amount: "10000",
       description:
-        "Project descriptionription for Foundation School Develop a detailed teaching aid for the topic “ Elements, Compounds and Mixtures” in Chemistry for students of Grade 6 in India, that can accompany the Central Board of Secondary Educategoryion (CBSE) curriculum. The teaching aid is based on a standard storyboard provided by the Foundation School and should be created using Microsoft PowerPoint.",
+        "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
       category: "category",
       section: "section",
       head: "head",
@@ -110,22 +174,76 @@ function dashboard() {
       purpose: "purpose",
       club: "KamandPrompt",
       updates: [
-        [
-          { user: "KP", date: "date", status: "approved", remark: "remark" },
-          {
-            user: "KP_sec",
-            date: "date",
-            status: "approved",
-            remark: "remark",
-          },
-          { user: "KP_FA", date: "date", status: "approved", remark: "remark" },
-          {
-            user: "TECH_FA",
-            date: "date",
-            status: "rejected",
-            remark: "remark",
-          },
-        ],
+        {
+          _id: "0",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          progress: [
+            {
+              _id: "0",
+              user: "KP",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "1",
+              user: "KP_sec",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "2",
+              user: "KP_FA",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "3",
+              user: "TECH_FA",
+              created_at: "date",
+              status: "rejected",
+              remark: "remark",
+            },
+          ],
+        },
+        {
+          _id: "0",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          progress: [
+            {
+              _id: "0",
+              user: "KP",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "1",
+              user: "KP_sec",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "2",
+              user: "KP_FA",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+            {
+              _id: "3",
+              user: "TECH_FA",
+              created_at: "date",
+              status: "approved",
+              remark: "remark",
+            },
+          ],
+        },
       ],
     },
   ];
@@ -220,95 +338,122 @@ function dashboard() {
               <figcaption className="text-[#2863C2]">No Data Found!</figcaption>
             </figure>
           ) : (
-            proposals.map((val, index) => (
-              <div
-                key={index}
-                className="flex flex-col gap-5 px-3 border my-2 rounded-md bg-white border-gray-200"
-              >
-                <Accordion type="single" collapsible>
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger className="hover:no-underline">
-                      <div className="flex w-full mr-5 justify-between items-center">
-                        <div className="flex justify-between flex-col items-start">
-                          <span className="text-xl font-medium">
-                            {val.title}
-                          </span>
-                          <div className="flex gap-3">
-                            <span className="text-sm font-medium">
-                              Amount:{" "}
-                              <span className="font-normal">
-                                {" "}
-                                ${val.amount}
+            proposals.map((val, index) => {
+              const [hist, setHist] = useState(false);
+
+              return (
+                <div
+                  key={index}
+                  className="flex flex-col gap-5 px-3 border my-2 rounded-md bg-white border-gray-200"
+                >
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger className="hover:no-underline">
+                        <div className="flex w-full mr-5 justify-between items-center">
+                          <div className="flex justify-between flex-col items-start">
+                            <span className="text-xl font-medium">
+                              {val.title}
+                            </span>
+                            <div className="flex gap-3">
+                              <span className="text-sm font-medium">
+                                Amount:{" "}
+                                <span className="font-normal">
+                                  {" "}
+                                  ${val.amount}
+                                </span>
                               </span>
-                            </span>
-                            <span className="text-sm font-medium">
-                              Date:{" "}
-                              <span className=" font-normal">{val.date}</span>
-                            </span>
+                              <span className="text-sm font-medium">
+                                Date:{" "}
+                                <span className=" font-normal">{val.date}</span>
+                              </span>
+                            </div>
+                            <div className="flex gap-2 items-center justify-center mt-2">
+                              <img
+                                className="h-8 w-8 rounded-full"
+                                src="images/bg-cover.jpg"
+                                alt=""
+                              />
+                              <span className="text-md">{val.club}</span>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button variant="destructive">Reject</Button>
+                            <Button variant="secondary">Approve</Button>
                           </div>
                         </div>
-                        <div className="flex gap-2 items-center justify-center">
-                          <img
-                            className="h-8 w-8 rounded-full"
-                            src="images/bg-cover.jpg"
-                            alt=""
-                          />
-                          <span className="text-md">{val.club}</span>
-                        </div>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <div className="flex flex-col gap-5">
-                        <div className="flex flex-col gap-1">
-                          <span className="font-medium text-sm">
-                            Description
-                          </span>
-                          <span>{val.description}</span>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                          <span className="font-medium">Status</span>
-                          <div>
-                            {val.updates.map((update, index) => (
-                              <div key={index} className="flex">
-                                {update.map((data, i) => (
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="flex flex-col gap-5">
+                          <div className="flex flex-col gap-1">
+                            <span className="font-medium text-sm">
+                              Description
+                            </span>
+                            <span>{val.description}</span>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <span className="font-semibold">Status</span>
+                            <div className="flex flex-col gap-3">
+                              <div className="flex flex-col gap-1">
+                                <div className="font-medium ml-1">
+                                  Attempt - {val.updates.length}
+                                </div>
+                                <div className="flex">
+                                  {val.updates[
+                                    val.updates.length - 1
+                                  ].progress.map((data, i) => (
+                                    <div>
+                                      <Node
+                                        size={val.updates[0].progress.length}
+                                        data={data}
+                                        i={i}
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                              <span className="flex items-center gap-1 my-2 font-medium">
+                                <span>Show History</span>
+                                <Switch
+                                  onClick={() => setHist((prev) => !prev)}
+                                />
+                              </span>
+                              {val.updates
+                                .slice(0, val.updates.length - 1)
+                                .reverse()
+                                .map((update, index) => (
                                   <>
-                                    <Popover>
-                                      <PopoverTrigger className="flex items-center">
-                                        <div className="flex relative flex-col gap-1 border p-3 rounded-md">
-                                          <span>Role: {data.user}</span>
-                                          <span>Date: {data.date}</span>
-                                          <div className=" absolute -top-2 -right-2">
-                                            {data.status === "approved" ? (
-                                              <IoCheckmarkDoneCircleSharp className="text-lg text-green-700" />
-                                            ) : data.status === 'rejected' ? 
-                                            (
-                                              <MdCancel className="text-lg text-red-600"/>
-                                            ): <IoIosWarning className="text-lg text-yellow-400" />}
+                                    {hist && (
+                                      <div key={index} className="flex">
+                                        <div className="flex flex-col gap-1">
+                                          <div className="ml-1 font-medium">
+                                            Attempt -{" "}
+                                            {val.updates.length - index - 1}
+                                          </div>
+                                          <div className="flex">
+                                            {update.progress.map((data, i) => (
+                                              <>
+                                                <Node
+                                                  size={update.progress.length}
+                                                  data={data}
+                                                  i={i}
+                                                />
+                                              </>
+                                            ))}
                                           </div>
                                         </div>
-                                        {
-                                          i < update.length - 1 ? data.status == 'approved' ? <img className=" font-bold" src="images/iconmonstr-arrow-right-thin.svg"></img> : <img className="h-8 w-8" src="images/right.png"></img>: ''
-                                        }
-                                      </PopoverTrigger>
-                                      <PopoverContent>
-                                        <div className="font-semibold">
-                                          Remarks
-                                        </div>
-                                        <p>{data.remark}</p>
-                                      </PopoverContent>
-                                    </Popover>
+                                      </div>
+                                    )}
                                   </>
                                 ))}
-                              </div>
-                            ))}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </div>
-            ))
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
+              );
+            })
           )}
         </div>
 
