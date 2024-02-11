@@ -38,7 +38,7 @@ function Nav() {
           <img src="images/logo_small.png" className="h-[3.5rem]"></img>
         </a>
       </div>
-      <div className="text-2xl font-medium max-lg:text-base">
+      <div className="text-2xl font- max-lg:text-base font-['Poppins'] text-orange-600">
         Student Gymkhana - IIT Mandi
       </div>
       <div className="flex items-center gap-10">

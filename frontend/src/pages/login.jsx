@@ -11,8 +11,9 @@ function login() {
   return (
     <div className="wrapper">
       <div className="h-[90vh] bg-[url('images/bg-cover.jpg')] bg-cover bg-bottom"></div>
-      <div className="h-[15vh] relative">
-        <div className="h-[1px] border bg-black w-full absolute bottom-3"></div>
+      <div className="h-[15vh] relative font-bold text-[#dadada] text-[2rem] max-sm:h-[10vh]">
+        <div class='font-["Poppins"] text-orange-600 pt-4'><marquee scrollamount="12">🟠 Student Gymkhana - IIT Mandi 🟠</marquee>
+        </div>
       </div>
       <div className="h-[50vh] bg-[#001d3f] flex max-lg:flex-col max-lg:h-[80vh] items-center justify-around">
         <div>
