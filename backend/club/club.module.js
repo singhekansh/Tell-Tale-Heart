@@ -14,11 +14,11 @@ const ClubSchema = new mongoose.Schema({
     required: true,
     min: 0
   },
-  fa_uid: {
+  fa_email: {
     type: String,
     required: true
   },
-  coordinator_uid: {
+  coordinator_email: {
     type: String,
     required: true
   }

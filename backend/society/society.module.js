@@ -9,11 +9,11 @@ const SocietySchema = new mongoose.Schema({
     type: Number, 
     required: true,
   },
-  fa_uid: {
+  fa_email: {
     type: String,
     required: true
   },
-  secretary_uid: {
+  secretary_email: {
     type: String,
     required: true
   }

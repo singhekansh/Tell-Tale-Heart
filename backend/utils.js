@@ -18,3 +18,14 @@ module.exports.checkSocietyExists = async (id) => {
     return true
   }
 }
+
+module.exports.getLatestBlock = (dataArray) => {
+  let t = { createdAt: null }
+  dataArray.forEach((data) => {
+    if(new Date(t.createdAt).getTime() < new Date(data.createdAt).getTime()) {
+      t = data
+    }
+  })
+  if(!t.createdAt) throw new Error('Invalid Data.')
+  return t
+}

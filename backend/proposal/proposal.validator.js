@@ -125,4 +125,49 @@ proposalValidators.deleteProposal = [
     .withMessage('Invalid Request.'),
 ];
 
+proposalValidators.approveBySecretary = [
+  param('id')
+    .notEmpty()
+    .withMessage('Invalid Request.'),
+  body('remark')
+    .isString()
+    .withMessage("Invalid remark.")
+]
+
+proposalValidators.approveByClubFA = [
+  param('id')
+    .notEmpty()
+    .withMessage('Invalid Request.'),
+  body('remark')
+    .isString()
+    .withMessage("Invalid remark.")
+]
+
+proposalValidators.approveBySocietyFA = [
+  param('id')
+    .notEmpty()
+    .withMessage('Invalid Request.'),
+  body('remark')
+    .isString()
+    .withMessage("Invalid remark.")
+]
+
+proposalValidators.approveByCSAP = [
+  param('id')
+    .notEmpty()
+    .withMessage('Invalid Request.'),
+  body('remark')
+    .isString()
+    .withMessage("Invalid remark.")
+]
+
+proposalValidators.approveByDeanStudents = [
+  param('id')
+    .notEmpty()
+    .withMessage('Invalid Request'),
+  body('remark')
+    .isString()
+    .withMessage('Invalid remark.')
+]
+
 module.exports = proposalValidators;

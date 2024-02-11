@@ -1,5 +1,31 @@
 const mongoose = require('mongoose')
 
+const UpdateSchema = new mongoose.Schema({
+  progress: {
+    type: [ ProgressSchema ],
+    required: true
+  }
+}, { timestamps: true })
+
+const ProgressSchema = new mongoose.Schema({
+  user: {
+    type: String,
+    required: true
+  },
+  user_type: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    required: true
+  },
+  remark: {
+    type: String,
+    required: true
+  },
+}, { timestamps: true })
+
 const ProposalSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -53,12 +79,12 @@ const ProposalSchema = new mongoose.Schema({
         type: String,
         required: true
       },
-      club: {
+      club_email: {
         type: String,
         required: true
       },
       updates: {
-        type: Array,
+        type: [ UpdateSchema ],
         required: true
       },
 }, { timestamps: true });
