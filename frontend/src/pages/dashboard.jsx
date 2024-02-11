@@ -1,5 +1,5 @@
 import AddProposal from "../components/AddProposal";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { IoIosAddCircle } from "react-icons/io";
 import AddSociety from "../components/AddSociety";
@@ -10,6 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import Node from "../components/Node";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/store/userStore";
+import {useNavigate} from "react-router-dom"
 
 import {
   Accordion,
@@ -19,11 +20,18 @@ import {
 } from "@/components/ui/accordion";
 
 function dashboard() {
+  const user = useUserStore(state => state.user)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(!user) {
+      navigate('/')
+    }
+  }, [user, navigate])
   const Status = ["Create Proposal", "Pending", "In Review", "Past"];
   const [status, setStatus] = useState(Status[1]);
   const [proposalmodal, setProposalModal] = useState(false);
   const [societymodal, setSocietyModal] = useState(false);
-  const user = useUserStore((state) => state.user);
   console.log(user);
   const handleStatus = (val) => {
     setStatus(val);
@@ -409,7 +417,7 @@ function dashboard() {
               </div>
             </div>
           </div>
-          {user && user.email === "KamandPromptiitmandi@gmail.com" && (
+          {user && user.email === "kamandprompt85@gmail.com" && (
             <>
               {/* // if user Club */}
               <div

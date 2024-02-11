@@ -1,4 +1,4 @@
-import { toast } from '@/components/ui/use-toast'
+// import { toast } from '@/components/ui/use-toast'
 import { ApiWithAuth } from '@/lib/axios'
 import { create } from 'zustand'
 
@@ -41,7 +41,7 @@ export const useSocietyStore = create((set) => ({
   deleteSociety: async (id) => {
     try {
       await ApiWithAuth.delete(`/society/${id}`)
-      set((state) => { societies: state.societies.filter((soc) => soc._id !== id) })
+      set((state) => ({ societies: state.societies.filter((soc) => soc._id !== id) }))
     } catch(err) {
       toast({
         title: 'Failed to delete new society.',

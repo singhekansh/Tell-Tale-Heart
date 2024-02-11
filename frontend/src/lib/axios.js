@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { toast } from "@/components/ui/toast";
+import { toast } from "@/components/ui/use-toast";
 import { useUserStore } from "@/store/userStore";
 
 const axiosOptions = {

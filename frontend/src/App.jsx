@@ -4,6 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useUserStore } from "./store/userStore";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
+import { Toaster } from "./components/ui/toaster";
 
 const Home = React.lazy(() => import("@/pages/index"));
 import Nav from "./components/Nav";
@@ -33,9 +34,12 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
+  const user = useUserStore(state => state.user)
   const setUser = useUserStore((state) => state.setUser);
   const logout = useUserStore((state) => state.logout);
+  
 
+  
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
       console.log(user);
@@ -63,6 +67,7 @@ export default function App() {
         <Nav />
         <RouterProvider router={router} />
       </PrimeReactProvider>
+      <Toaster />
     </>
   );
 }
