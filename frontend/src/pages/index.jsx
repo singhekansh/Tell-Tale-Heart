@@ -19,10 +19,7 @@ function App() {
     <div className="wrapper">
       <div className="h-[90vh] bg-[url('images/bg-cover.jpg')] bg-cover bg-bottom"></div>
       <div className="h-[15vh] relative font-bold flex items-center  text-[#dadada] text-[2rem] max-sm:h-[10vh]">
-        <div class='font-["Poppins"] text-orange-600 w-full'>
-          <marquee scrollamount="12">
-            🟠 Student Gymkhana - IIT Mandi 🟠
-          </marquee>
+        <div class='h-[0.01rem] w-full bg-[#001d3f] absolute bottom-4'>
         </div>
       </div>
       <div className="h-[50vh] bg-[#001d3f] flex max-lg:flex-col max-lg:h-[80vh] items-center justify-around">

@@ -33,7 +33,7 @@ export const useSocietyStore = create((set) => ({
       })
     } catch(err) {
       toast({
-        title: 'Failed to create new society.',
+        title: 'Failed to update a new society.',
         description: err.response.data.message
       })
     }
@@ -44,7 +44,7 @@ export const useSocietyStore = create((set) => ({
       set((state) => { societies: state.societies.filter((soc) => soc._id !== id) })
     } catch(err) {
       toast({
-        title: 'Failed to create new society.',
+        title: 'Failed to delete new society.',
         description: err.response.data.message
       })
     }
