@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,17 +10,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+const Modal = ({ modal, setModal, addSociety, data, setdata }) => {
+  
+  const [toadd, setToadd] = useState({
+    name: '',
+    budget: 0,
+    fa_email: '',
+    secretary_email: '',
+  });
 
-const Modal = ({ modal, setModal, data, setdata }) => {
-  const handleInputChange = (name, value) => {
-    if (name === "category") setToadd(value);
-    setInpts((prevInpts) => ({
-      ...prevInpts,
-      [name]: value,
-    }));
+  const handleInputChange = (value) => {
+    setToadd({ ...toadd, ...value })
   };
-
-  const [toadd, setToadd] = React.useState(null);
 
   return (
     <Dialog open={modal}>
@@ -39,7 +40,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                     <span className="text-red-500">*</span>
                   </label>
                   <Input
-                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    onChange={(e) => handleInputChange({ name: e.target.value })}
                     type="text"
                     required
                   />
@@ -53,7 +54,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                     Budget <span className="text-red-500">*</span>
                   </label>
                   <Input
-                    onChange={(e) => handleInputChange("amt", e.target.value)}
+                    onChange={(e) => handleInputChange({ budget: parseInt(e.target.value) })}
                     type="Number"
                   />
                 </div>
@@ -67,7 +68,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                   <span className="text-red-500">*</span>
                 </label>
                 <Input
-                  onChange={(e) => handleInputChange("fa-mail", e.target.value)}
+                  onChange={(e) => handleInputChange({ fa_email: e.target.value })}
                   type="email"
                   placeholder="Enter your email"
                   required
@@ -82,7 +83,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                   <span className="text-red-500">*</span>
                 </label>
                 <Input
-                  onChange={(e) => handleInputChange("secy", e.target.value)}
+                  onChange={(e) => handleInputChange({ secretary_email: e.target.value })}
                   type="email"
                   placeholder="Enter your email"
                   required
@@ -90,21 +91,19 @@ const Modal = ({ modal, setModal, data, setdata }) => {
               </div>
             </div>
 
-            <div
-              onClick={() => setModal(false)}
-              className="flex w-[100%] mt-5 mb-2 md:justify-end justify-center items-center pr-5"
+            <button
+              onClick={async () => { await addSociety(toadd) }}
+              className="flex ml-auto mr-5 w-fit mt-5 mb-2 md:justify-end justify-center items-center"
             >
-              <span className="flex  justify-center mx-5 cursor-pointer items-center gap-2 rounded-lg bg-[#0065C1] px-5 py-2 text-white shadow-md hover:shadow-[#4682B4]">
+              <span className="flex justify-center cursor-pointer items-center gap-2 rounded-lg bg-[#0065C1] px-5 py-2 text-white shadow-md hover:shadow-[#4682B4]">
                 Save Changes
               </span>
-            </div>
+            </button>
 
             <button
               className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute z-50 right-[12px] top-[12px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
               aria-label="Close"
-              onClick={() => {
-                setModal(false);
-              }}
+              onClick={() => setModal(false)}
             >
               <RxCross1 />
             </button>

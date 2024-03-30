@@ -5,6 +5,7 @@ import { auth } from "@/lib/firebase";
 import { useUserStore } from "./store/userStore";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { Toaster } from "./components/ui/toaster";
+import { toast } from "./components/ui/use-toast";
 
 const Home = React.lazy(() => import("@/pages/index"));
 import Nav from "./components/Nav";
@@ -42,7 +43,7 @@ export default function App() {
   
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
-      console.log(user);
+      // console.log(user);
       if (user) {
         auth.currentUser
           .getIdToken(true)

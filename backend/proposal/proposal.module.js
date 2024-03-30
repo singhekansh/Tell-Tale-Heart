@@ -1,12 +1,4 @@
 const mongoose = require('mongoose')
-
-const UpdateSchema = new mongoose.Schema({
-  progress: {
-    type: [ ProgressSchema ],
-    required: true
-  }
-}, { timestamps: true })
-
 const ProgressSchema = new mongoose.Schema({
   user: {
     type: String,
@@ -25,6 +17,14 @@ const ProgressSchema = new mongoose.Schema({
     required: true
   },
 }, { timestamps: true })
+
+const UpdateSchema = new mongoose.Schema({
+  progress: {
+    type: [ ProgressSchema ],
+    required: true
+  }
+}, { timestamps: true })
+
 
 const ProposalSchema = new mongoose.Schema({
     title: {

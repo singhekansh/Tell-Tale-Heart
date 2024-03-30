@@ -53,7 +53,7 @@ module.exports.authenticate = async (req, res, next) => {
   const header = req.header('Authorization')
   if (!header) return res.status(401).json({ message: 'You are not authorized.' })
 
-  const idtoken = header.split(" ")[0]
+  const [_, idtoken] = header.split(" ")
   const auth = getAuth()
   auth
     .verifyIdToken(idtoken)

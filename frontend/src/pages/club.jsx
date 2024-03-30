@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
@@ -7,7 +7,6 @@ import { TiEdit } from "react-icons/ti";
 import { Input } from "@/components/ui/input";
 import { IoIosAddCircle } from "react-icons/io";
 import AddClub from "../components/AddClub";
-import clubs from '../../club_info.jsx'
 import {
   Dialog,
   DialogContent,
@@ -18,25 +17,52 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { RxCross1 } from "react-icons/rx";
+import { useClubStore } from "@/store/clubStore";
+import { ApiWithAuth } from "@/lib/axios";
+import { useUserStore } from "@/store/userStore";
+import { useNavigate } from "react-router-dom" 
+import { toast } from "@/components/ui/use-toast";
+
+const validateData = (data) => {
+  console.log(data)
+  if(data.society?.length === 0) return "Please select a society"
+  if(data.name?.length === 0) return "Please enter valid club name"
+  if(data.budget <= 0) return "Please enter valid budget"
+  if(data.fa_email?.length === 0) return "Please enter Club FA email"
+  if(data.coordinator_email?.length === 0) return "Please enter Coordinator email"
+  return null
+}
+
+const renderUpdateColumn = (rowData) => {
+  return (
+    <div className="flex text-xl gap-2">
+      <AiFillDelete
+        style={{ cursor: "pointer", color: "red" }}
+        onClick={() => handleDelete(rowData)}
+      />
+      <TiEdit
+        style={{ cursor: "pointer", color: "blue" }}
+        onClick={() => handleEdit(rowData)}
+      />
+    </div>
+  );
+};
 
 export default function ClubTable() {
-  const [club, setClub] = useState(clubs);
+
+  const user = useUserStore(state => state.user)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(!user) {
+      navigate('/?redirect=club')
+    }
+  }, [user, navigate])
+
+  const [club, setClub] = useState([]);
+  const [society, setSociety] = useState([]);
   const [currentRow, setCurrentRow] = useState(null);
 
-  const renderUpdateColumn = (rowData) => {
-    return (
-      <div className="flex text-xl gap-2">
-        <AiFillDelete
-          style={{ cursor: "pointer", color: "red" }}
-          onClick={() => handleDelete(rowData)}
-        />
-        <TiEdit
-          style={{ cursor: "pointer", color: "blue" }}
-          onClick={() => handleEdit(rowData)}
-        />
-      </div>
-    );
-  };
   const [delModal, setDelModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
 
@@ -133,9 +159,90 @@ export default function ClubTable() {
 
   const [clubmodal, setClubModal] = useState(false);
 
+
+  const getSocieties = async () => {
+    try {
+      const societies = (await ApiWithAuth.get('/society')).data.data
+      console.log("GET /society: ", societies)
+      setSociety(societies)
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message
+      console.error('GET /society: ', error)
+    }
+  }
+
+  const getClubs = async () => {
+    try {
+      const clubs = (await ApiWithAuth.get('/club')).data.data
+      console.log("GET /club: ", clubs)
+      setClub(clubs)
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message
+      console.error('GET /club: ', error)
+    }
+  }
+
+  const addClub = async (data) => {
+    const error = validateData(data)
+    if (error) return toast({ title: error })
+
+    try {
+      const newClub = (await ApiWithAuth.post('/club', data)).data.data
+      console.log('POST /club: ', newClub)
+      setClub([newClub, ...club])
+      setClubModal(false)
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message
+      console.error('POST /club: ', error)
+      toast({
+        title: "Failed to create new club",
+        description: error
+      })
+    }
+  }
+
+  const editClub = async (id, data) => {
+    try {
+      const updatedClub = (await ApiWithAuth.put(`/club/${id}`, data)).data.data
+      console.log('PUT /club: ', updatedClub)
+      setClub([
+        updatedClub,
+        ...club.filter((s) => s._id !== id),
+      ])
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message
+      console.error('PUT /club: ', error)
+      toast({
+        title: "Failed to update club",
+        description: error
+      })
+    }
+  }
+
+  const deleteClub = async (id) => {
+    try {
+      await ApiWithAuth.delete(`/club/${id}`)
+      setClub([
+        ...club.filter((s) => s._id !== id),
+      ])
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message
+      console.error('DELETE /club: ', error)
+      toast({
+        title: "Failed to delete club",
+        description: error
+      })
+    }
+  }
+
+  useEffect(() => {
+    getClubs()
+    getSocieties()
+  }, [])
+
   return (
     <div className="card rounded-md p-10">
-      <AddClub modal={clubmodal} setModal={setClubModal} />
+      <AddClub modal={clubmodal} setModal={setClubModal} society={society} addClub={addClub} />
       <DataTable
         className=" rounded-md"
         value={club}
@@ -151,7 +258,7 @@ export default function ClubTable() {
           filterPlaceholder="Search by name"
         />
         <Column
-          field="society"
+          field="society.name"
           header="Society"
           filter
           filterPlaceholder="Search by society"
@@ -169,13 +276,13 @@ export default function ClubTable() {
           filterPlaceholder="Search by spent"
         />
         <Column
-          field="fa_uid"
+          field="fa_email"
           header="FA Email"
           filter
           filterPlaceholder="Search by FA Email"
         />
         <Column
-          field="coordi_uid"
+          field="coordinator_email"
           header="Coordinator Email"
           filter
           filterPlaceholder="Search by Coordinator Email"

@@ -12,10 +12,10 @@ societyValidators.createSociety = [
   body('budget')
     .isFloat({ min: 0 })
     .withMessage('Please enter a valid budget.'),
-  body('fa_uid')
+  body('fa_email')
     .notEmpty()
     .withMessage('Please enter society FA\'s email.'),
-  body('secretary_uid')
+  body('secretary_email')
     .notEmpty()
     .withMessage('Please enter society secretary\'s email.')
 ];
@@ -32,11 +32,11 @@ societyValidators.updateSociety = [
     .optional()
     .isFloat({ min: 0 })
     .withMessage('Please enter a valid budget.'),
-  body('fa_uid')
+  body('fa_email')
     .optional()
     .notEmpty()
     .withMessage('Please enter society FA\'s email.'),
-  body('secretary_uid')
+  body('secretary_email')
     .optional()
     .notEmpty()
     .withMessage('Please enter society secretary\'s email.')

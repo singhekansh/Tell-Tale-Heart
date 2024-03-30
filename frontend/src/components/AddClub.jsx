@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,17 +10,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const Modal = ({ modal, setModal, data, setdata }) => {
+const Modal = ({ modal, setModal, society, addClub, data, setdata }) => {
+  const [toadd, setToadd] = useState({
+    name: '',
+    society: '',
+    budget: 0,
+    fa_email: '',
+    coordinator_email: ''
+  });
 
-  const handleInputChange = (name, value) => {
-    if (name === "category") setToadd(value);
-    setInpts((prevInpts) => ({
-      ...prevInpts,
-      [name]: value,
-    }));
+  const handleInputChange = (value) => {
+    setToadd({ ...toadd, ...value })
   };
 
-  const [toadd, setToadd] = React.useState(null);
 
   return (
     <Dialog open={modal}>
@@ -40,16 +42,16 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                   </label>
                   <select
                     onChange={(e) =>
-                      handleInputChange("subCategory", e.target.value)
+                      handleInputChange({ society: e.target.value })
                     }
                     className="block w-full p-2 border border-gray-300 rounded-md"
                   >
                     <option value="">Select Society</option>
-                    <option value="Literary">Literary Society</option>
-                    <option value="Sports">Sports Society</option>
-                    <option value="Cultural">Cultural Society</option>
-                    <option value="Technical">Technical Society</option>
-                    <option value="Research">Research Society</option>
+                    {
+                      society.map(s => 
+                        <option key={s._id} value={s._id}>{ s.name }</option>  
+                      )
+                    }
                   </select>
                 </div>
               </div>
@@ -62,7 +64,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                     Name of the Club <span className="text-red-500">*</span>
                   </label>
                   <Input
-                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    onChange={(e) => handleInputChange({ name: e.target.value })}
                     type="text"
                     required
                   />
@@ -76,7 +78,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                     Budget <span className="text-red-500">*</span>
                   </label>
                   <Input
-                    onChange={(e) => handleInputChange("amt", e.target.value)}
+                    onChange={(e) => handleInputChange({ budget: parseInt(e.target.value) })}
                     type="Number"
                   />
                 </div>
@@ -90,7 +92,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                   <span className="text-red-500">*</span>
                 </label>
                 <Input
-                  onChange={(e) => handleInputChange("fa-mail", e.target.value)}
+                  onChange={(e) => handleInputChange({ fa_email: e.target.value })}
                   type="email"
                   placeholder="Enter your email"
                   required
@@ -105,14 +107,14 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                   <span className="text-red-500">*</span>
                 </label>
                 <Input
-                  onChange={(e) => handleInputChange("coordi", e.target.value)}
+                  onChange={(e) => handleInputChange({ coordinator_email: e.target.value })}
                   type="email"
                   placeholder="Enter your email"
                   required
                 />
               </div>
             <div
-              onClick={() => setModal(false)}
+              onClick={() => addClub(toadd)}
               className="flex w-[100%] mt-5 mb-2 md:justify-end justify-center items-center "
             >
               <span className="flex  justify-center mx-5 cursor-pointer items-center gap-2 rounded-lg bg-[#0065C1] px-5 py-2 text-white shadow-md hover:shadow-[#4682B4]">

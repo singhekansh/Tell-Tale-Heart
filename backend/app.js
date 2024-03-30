@@ -5,6 +5,7 @@ const express = require('express')
 const { authenticate } = require('./middleware')
 const admin = require('firebase-admin')
 const serviceAccount = require('./firebase-credentials.json')
+const morgan = require('morgan')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -12,6 +13,7 @@ admin.initializeApp({
 
 const app = express()
 app.use(express.json())
+app.use(morgan("dev"))
 
 app.get('/', (req, res) => {
   res.send('Hello World!')

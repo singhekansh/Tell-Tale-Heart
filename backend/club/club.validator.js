@@ -12,15 +12,15 @@ clubValidators.createNewClub = [
   body('society')
     .notEmpty()
     .withMessage('Please select clubs\'s society.')
-    .custom(utils.checkErrors)
+    .custom(utils.checkSocietyExists)
     .withMessage('Selected society does not exist.'),
   body('budget')
     .isFloat({ min: 0 })
     .withMessage('Please enter club\'s budget.'),
-  body('fa_uid')
+  body('fa_email')
     .notEmpty()
     .withMessage('Please enter club FA\'s email.'),
-  body('coordinator_uid')
+  body('coordinator_email')
     .notEmpty()
     .withMessage('Please enter club coordinator\'s email.')
 ]
@@ -43,11 +43,11 @@ clubValidators.updateClub = [
     .optional()
     .isFloat({ min: 0 })
     .withMessage('Please enter club\'s budget.'),
-  body('fa_uid')
+  body('fa_email')
     .optional()
     .notEmpty()
     .withMessage('Please enter club FA\'s email.'),
-  body('coordinator_uid')
+  body('coordinator_email')
     .optional()
     .notEmpty()
     .withMessage('Please enter club coordinator\'s email.')

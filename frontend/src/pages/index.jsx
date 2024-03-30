@@ -4,22 +4,25 @@ import { RiTwitterXFill } from "react-icons/ri";
 import { FaSquarePhone } from "react-icons/fa6";
 import { IoMdMail } from "react-icons/io";
 import { useUserStore } from "../store/userStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 
 function App() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams()
+  const redirectUrl = searchParams.get('redirect')
+
   const user = useUserStore((state) => state.user);
   useEffect(() => {
     if (user) {
-      navigate("/dashboard");
+      navigate(redirectUrl ? `/${redirectUrl}` : "/dashboard");
     }
   }, [user, navigate]);
   return (
     <div className="wrapper">
       <div className="h-[90vh] bg-[url('images/bg-cover.jpg')] bg-cover bg-bottom"></div>
       <div className="h-[15vh] relative font-bold flex items-center  text-[#dadada] text-[2rem] max-sm:h-[10vh]">
-        <div class='h-[0.01rem] w-full bg-[#001d3f] absolute bottom-4'>
+        <div className='h-[0.01rem] w-full bg-[#001d3f] absolute bottom-4'>
         </div>
       </div>
       <div className="h-[50vh] bg-[#001d3f] flex max-lg:flex-col max-lg:h-[80vh] items-center justify-around">

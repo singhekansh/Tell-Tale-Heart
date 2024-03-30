@@ -7,10 +7,11 @@ export const useClubStore = create((set) => ({
   getClubs: async () => {
     let clubs = []
     try {
-      clubs = (await ApiWithAuth.get('/club')).data.data
+      clubs = (await ApiWithAuth.get('/club'))
+      console.log(clubs)
       set((state) => clubs)
     } catch(err) {
-      console.error('Failed to load clubs', err.response.data.message)
+      console.error('Failed to load clubs', err?.response?.data?.message || err.message)
     }
   },
   createClubs: async (data) => {
