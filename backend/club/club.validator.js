@@ -37,7 +37,7 @@ clubValidators.updateClub = [
     .optional()
     .notEmpty()
     .withMessage('Please select clubs\'s society.')
-    .custom(utils.checkErrors)
+    .custom(utils.checkSocietyExists)
     .withMessage('Selected society does not exist.'),
   body('budget')
     .optional()

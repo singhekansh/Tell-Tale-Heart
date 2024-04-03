@@ -2,7 +2,7 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const app = require('./backend/app')
 const Database = require('./backend/db')
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000
 
 const db = new Database(process.env.MONGODB_URI);
 

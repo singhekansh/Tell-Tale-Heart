@@ -24,7 +24,7 @@ clubController.createNewClub = async (req, res) => {
 
 clubController.updateClub = async (req, res) => {
   let newData = {}
-  if(req.body.name) newData.name = req.body.data
+  if(req.body.name) newData.name = req.body.name
   if(req.body.society) newData.society = req.body.society
   if(req.body.budget) newData.budget = req.body.budget
   if(req.body.fa_email) newData.fa_email = req.body.fa_email
@@ -43,8 +43,8 @@ clubController.updateClub = async (req, res) => {
 
 clubController.deleteClub = async (req, res) => {
   try {
-    const data = await Club.findByIdAndDelete(req.param.id)
-    return res.json({ message: `${data.name} club delete successfully.`, data })
+    const data = await Club.findByIdAndDelete(req.params.id)
+    return res.json({ message: `${data.name} club deleted successfully.`, data })
   } catch (err) {
     return res.status(500).json({ message: err.message })
   }

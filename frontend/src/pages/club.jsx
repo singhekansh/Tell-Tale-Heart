@@ -20,49 +20,48 @@ import { RxCross1 } from "react-icons/rx";
 import { useClubStore } from "@/store/clubStore";
 import { ApiWithAuth } from "@/lib/axios";
 import { useUserStore } from "@/store/userStore";
-import { useNavigate } from "react-router-dom" 
+import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 
 const validateData = (data) => {
-  console.log(data)
-  if(data.society?.length === 0) return "Please select a society"
-  if(data.name?.length === 0) return "Please enter valid club name"
-  if(data.budget <= 0) return "Please enter valid budget"
-  if(data.fa_email?.length === 0) return "Please enter Club FA email"
-  if(data.coordinator_email?.length === 0) return "Please enter Coordinator email"
-  return null
-}
-
-const renderUpdateColumn = (rowData) => {
-  return (
-    <div className="flex text-xl gap-2">
-      <AiFillDelete
-        style={{ cursor: "pointer", color: "red" }}
-        onClick={() => handleDelete(rowData)}
-      />
-      <TiEdit
-        style={{ cursor: "pointer", color: "blue" }}
-        onClick={() => handleEdit(rowData)}
-      />
-    </div>
-  );
+  console.log(data);
+  if (data.society?.length === 0) return "Please select a society";
+  if (data.name?.length === 0) return "Please enter valid club name";
+  if (data.budget <= 0) return "Please enter valid budget";
+  if (data.fa_email?.length === 0) return "Please enter Club FA email";
+  if (data.coordinator_email?.length === 0)
+    return "Please enter Coordinator email";
+  return null;
 };
 
 export default function ClubTable() {
-
-  const user = useUserStore(state => state.user)
-  const navigate = useNavigate()
+  const user = useUserStore((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(!user) {
-      navigate('/?redirect=club')
+    if (!user) {
+      navigate("/?redirect=club");
     }
-  }, [user, navigate])
+  }, [user, navigate]);
 
   const [club, setClub] = useState([]);
   const [society, setSociety] = useState([]);
   const [currentRow, setCurrentRow] = useState(null);
 
+  const renderUpdateColumn = (rowData) => {
+    return (
+      <div className="flex text-xl gap-2">
+        <AiFillDelete
+          style={{ cursor: "pointer", color: "red" }}
+          onClick={() => handleDelete(rowData)}
+        />
+        <TiEdit
+          style={{ cursor: "pointer", color: "blue" }}
+          onClick={() => handleEdit(rowData)}
+        />
+      </div>
+    );
+  };
   const [delModal, setDelModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
 
@@ -71,20 +70,15 @@ export default function ClubTable() {
     setCurrentRow(row);
   };
 
-  const handleFinalDelete = () => {
-    setClub((prevClub) =>
-      prevClub.filter((club) => club.name !== currentRow.name)
-    );
-    setDelModal(false);
-  };
-
   const handleEdit = (row) => {
     setEditModal(true);
     setCurrentRow(row);
   };
 
-  const handleFinalEdit = () => {
-    setEditModal(false);
+  const handleInputChange = (key, data) => {
+    let newrow = { ...currentRow };
+    newrow[key] = data;
+    setCurrentRow(newrow);
   };
 
   const [filters, setFilters] = useState({
@@ -159,90 +153,103 @@ export default function ClubTable() {
 
   const [clubmodal, setClubModal] = useState(false);
 
-
   const getSocieties = async () => {
     try {
-      const societies = (await ApiWithAuth.get('/society')).data.data
-      console.log("GET /society: ", societies)
-      setSociety(societies)
+      const societies = (await ApiWithAuth.get("/society")).data.data;
+      console.log("GET /society: ", societies);
+      setSociety(societies);
     } catch (err) {
-      let error = err?.response?.data?.message || err.message
-      console.error('GET /society: ', error)
+      let error = err?.response?.data?.message || err.message;
+      console.error("GET /society: ", error);
     }
-  }
+  };
 
   const getClubs = async () => {
     try {
-      const clubs = (await ApiWithAuth.get('/club')).data.data
-      console.log("GET /club: ", clubs)
-      setClub(clubs)
+      const clubs = (await ApiWithAuth.get("/club")).data.data;
+      console.log("GET /club: ", clubs);
+      setClub(clubs);
     } catch (err) {
-      let error = err?.response?.data?.message || err.message
-      console.error('GET /club: ', error)
+      let error = err?.response?.data?.message || err.message;
+      console.error("GET /club: ", error);
     }
-  }
+  };
 
   const addClub = async (data) => {
-    const error = validateData(data)
-    if (error) return toast({ title: error })
+    const error = validateData(data);
+    if (error) return toast({ title: error });
 
     try {
-      const newClub = (await ApiWithAuth.post('/club', data)).data.data
-      console.log('POST /club: ', newClub)
-      setClub([newClub, ...club])
-      setClubModal(false)
+      const newClub = (await ApiWithAuth.post("/club", data)).data.data;
+      console.log("POST /club: ", newClub);
+      getClubs();
+      // setClub([newClub, ...club])
+      setClubModal(false);
     } catch (err) {
-      let error = err?.response?.data?.message || err.message
-      console.error('POST /club: ', error)
+      let error = err?.response?.data?.message || err.message;
+      console.error("POST /club: ", error);
       toast({
         title: "Failed to create new club",
-        description: error
-      })
+        description: error,
+      });
     }
-  }
+  };
 
-  const editClub = async (id, data) => {
+  const editClub = async () => {
+    console.log("currentRow: ", currentRow);
+    const id = currentRow._id;
+    const data = currentRow;
     try {
-      const updatedClub = (await ApiWithAuth.put(`/club/${id}`, data)).data.data
-      console.log('PUT /club: ', updatedClub)
-      setClub([
-        updatedClub,
-        ...club.filter((s) => s._id !== id),
-      ])
+      console.log(data);
+      const updatedClub = (await ApiWithAuth.put(`/club/${id}`, data)).data
+        .data;
+      console.log("PUT /club: ", updatedClub);
+      getClubs();
+      // setClub([
+      //   updatedClub,
+      //   ...club.filter((s) => s._id !== id),
+      // ])
+      setEditModal(false);
     } catch (err) {
-      let error = err?.response?.data?.message || err.message
-      console.error('PUT /club: ', error)
+      let error = err?.response?.data?.message || err.message;
+      console.error("PUT /club: ", error);
       toast({
         title: "Failed to update club",
-        description: error
-      })
+        description: error,
+      });
     }
-  }
+  };
 
-  const deleteClub = async (id) => {
+  const deleteClub = async () => {
+    const id = currentRow._id;
     try {
-      await ApiWithAuth.delete(`/club/${id}`)
-      setClub([
-        ...club.filter((s) => s._id !== id),
-      ])
+      const deleteClub = await ApiWithAuth.delete(`/club/${id}`);
+      console.log("DELETE /club: ", deleteClub);
+      setClub([...club.filter((s) => s._id !== id)]);
+      setDelModal(false);
     } catch (err) {
-      let error = err?.response?.data?.message || err.message
-      console.error('DELETE /club: ', error)
+      let error = err?.response?.data?.message || err.message;
+      console.error("DELETE /club: ", error);
       toast({
         title: "Failed to delete club",
-        description: error
-      })
+        description: error,
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    getClubs()
-    getSocieties()
-  }, [])
+    getClubs();
+    getSocieties();
+  }, []);
 
   return (
     <div className="card rounded-md p-10">
-      <AddClub modal={clubmodal} setModal={setClubModal} society={society} addClub={addClub} />
+      <AddClub
+        modal={clubmodal}
+        setModal={setClubModal}
+        society={society}
+        addClub={addClub}
+      />
       <DataTable
         className=" rounded-md"
         value={club}
@@ -295,10 +302,10 @@ export default function ClubTable() {
           <DialogHeader>
             <DialogTitle className="pb-4">
               Are you sure you want to delete this Club ?
-            </DialogTitle> 
+            </DialogTitle>
             <DialogDescription className="overflow-y-auto  max-h-[500px]">
               <div className="flex gap-3">
-                <Button variant="destructive" onClick={handleFinalDelete}>
+                <Button variant="destructive" onClick={deleteClub}>
                   Yes
                 </Button>
                 <Button variant="secondary" onClick={() => setEditModal(false)}>
@@ -321,10 +328,8 @@ export default function ClubTable() {
 
       <Dialog open={editModal}>
         <DialogContent>
-          <DialogHeader>  
-            <DialogTitle className="pb-4">
-              Edit Club Details
-            </DialogTitle>
+          <DialogHeader>
+            <DialogTitle className="pb-4">Edit Club Details</DialogTitle>
             <DialogDescription className="overflow-y-auto scrollbar  max-h-[500px]">
               <div className="max-h-[60vh]">
                 <div>
@@ -343,13 +348,8 @@ export default function ClubTable() {
                       className="block w-full p-2 border border-gray-300 rounded-md"
                     >
                       <option value="">
-                        {currentRow ? currentRow.society : ""}
+                        {currentRow ? currentRow.society.name : ""}
                       </option>
-                      <option value="Literary">Literary Society</option>
-                      <option value="Sports">Sports Society</option>
-                      <option value="Cultural">Cultural Society</option>
-                      <option value="Technical">Technical Society</option>
-                      <option value="Research">Research Society</option>
                     </select>
                   </div>
                 </div>
@@ -380,7 +380,9 @@ export default function ClubTable() {
                     </label>
                     <Input
                       value={currentRow && currentRow.budget}
-                      onChange={(e) => handleInputChange("amt", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("budget", e.target.value)
+                      }
                       type="Number"
                     />
                   </div>
@@ -395,7 +397,7 @@ export default function ClubTable() {
                   </label>
                   <Input
                     onChange={(e) =>
-                      handleInputChange("fa-mail", e.target.value)
+                      handleInputChange("fa_email", e.target.value)
                     }
                     type="email"
                     placeholder="Enter your email"
@@ -412,7 +414,7 @@ export default function ClubTable() {
                   </label>
                   <Input
                     onChange={(e) =>
-                      handleInputChange("coordi", e.target.value)
+                      handleInputChange("coordinator_email", e.target.value)
                     }
                     type="email"
                     placeholder="Enter your email"
@@ -420,8 +422,8 @@ export default function ClubTable() {
                   />
                 </div>
                 <div
-                  onClick={handleFinalEdit}
                   className="flex w-[100%] mt-5 mb-2 md:justify-end justify-center items-center pr-5"
+                  onClick={editClub}
                 >
                   <span className="flex  justify-center mx-5 cursor-pointer items-center gap-2 rounded-lg bg-[#0065C1] px-5 py-2 text-white shadow-md hover:shadow-[#4682B4]">
                     Save Changes

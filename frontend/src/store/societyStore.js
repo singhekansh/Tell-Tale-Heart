@@ -1,5 +1,5 @@
-// import { toast } from '@/components/ui/use-toast'
-import { ApiWithAuth } from '@/lib/axios'
+import { toast } from '@/components/ui/use-toast'
+import { ApiWithAuth, API } from '@/lib/axios'
 import { create } from 'zustand'
 
 export const useSocietyStore = create((set) => ({
@@ -9,18 +9,20 @@ export const useSocietyStore = create((set) => ({
     try {
       societies = (await ApiWithAuth.get('/society')).data.data
       set((state) => ({ societies }))
+      console.log({societies})
     } catch(err) {
       console.error('Failed to load society', err.response.data.message)
     }
   },
   createSocieties: async (data) => {
     try {
-      let newSociety = (await ApiWithAuth.post('/society')).data.data
-      set((state) => ({ societies: [newSociety, ...state]}))
+      let newSociety = (await ApiWithAuth.post('/society', data )).data.data
+      set((state) => ({ societies: [newSociety, ...state.societies]}))  
     } catch (err) {
+      console.error(err)
       toast({
         title: 'Failed to create new society.',
-        description: err.response.data.message
+        description: err?.response?.data?.message || err?.message
       })
     }
   },
