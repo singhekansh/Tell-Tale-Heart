@@ -2,27 +2,33 @@ const Society = require('./society.module');
 
 let societyController = {};
 
-societyController.getAllSocieties = async (req, res) => {
+societyController.getAllSocieties = async (req, res, next) => {
   try {
-    const data = await Society.find();
+    let data = await Society.find();
+    data = await Promise.all(data.map(async (soc) => 
+      ({ ...soc.toObject(),  spent: await soc.getBudgetSpent() })
+    ))
     return res.json({ message: 'Success', data });
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    next(err)
   }
 };
 
-societyController.createSociety = async (req, res) => {
+societyController.createSociety = async (req, res, next) => {
   const { name, budget, fa_email, secretary_email } = req.body;
 
   try {
     const data = await Society.create({ name, budget, fa_email, secretary_email });
-    return res.json({ message: `${data.name} society created successfully.`, data });
+    return res.json({ 
+      message: `${data.name} society created successfully.`, 
+      data: { ...data.toObject(), spent: 0 } 
+    });
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    next(err)
   }
 };
 
-societyController.updateSociety = async (req, res) => {
+societyController.updateSociety = async (req, res, next) => {
   let newData = {};
   if (req.body.name) newData.name = req.body.name;
   if (req.body.budget) newData.budget = req.body.budget;
@@ -31,18 +37,21 @@ societyController.updateSociety = async (req, res) => {
 
   try {
     const data = await Society.findByIdAndUpdate(req.params.id, newData, { new: true });
-    return res.json({ message: `${data.name} society updated successfully.`, data });
+    return res.json({ 
+      message: `${data.name} society updated successfully.`, 
+      data: { ...data.toObject(), spent: (await data.getBudgetSpent()) }
+    });
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    next(err)
   }
 };
 
-societyController.deleteSociety = async (req, res) => {
+societyController.deleteSociety = async (req, res, next) => {
   try {
     const data = await Society.findByIdAndDelete(req.params.id);
     return res.json({ message: `${data.name} society deleted successfully.` });
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    next(err)
   }
 };
 

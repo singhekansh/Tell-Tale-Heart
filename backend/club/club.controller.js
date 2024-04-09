@@ -2,27 +2,34 @@ const Club = require('./club.module')
 
 let clubController = {}
 
-clubController.getAllClubs = async (req, res) => {
+clubController.getAllClubs = async (req, res, next) => {
   try {
-    const data = await Club.find({}).populate('society');
+    let data = await Club.find().populate('society');
+    data = await Promise.all(data.map(async (i) => { 
+      return { ...i.toObject(), spent: await i.getBudgetSpent() }
+    }))
     return res.json({ message: 'Success', data })
   } catch(err) {
-    return res.status(500).json({ message: err.message })
+    next(err)
   }
 }
 
-clubController.createNewClub = async (req, res) => {
+clubController.createNewClub = async (req, res, next) => {
   const { name, society, budget, fa_email, coordinator_email } = req.body
 
   try {
     const data = await Club.create({ name, society, budget, fa_email, coordinator_email })
-    return res.json({ message: `${data.name} club created successfully.`, data })
+    return res.json({ 
+      message: `${data.name} club created successfully.`, 
+      ...data.toObject(),
+      spent: 0 
+    })
   } catch (err) {
-    return res.status(500).json({ message: err.message })
+    next(err)
   }
 }
 
-clubController.updateClub = async (req, res) => {
+clubController.updateClub = async (req, res, next) => {
   let newData = {}
   if(req.body.name) newData.name = req.body.name
   if(req.body.society) newData.society = req.body.society
@@ -35,18 +42,22 @@ clubController.updateClub = async (req, res) => {
       req.params.id,
       newData
     )
-    return res.json({ message: `${data.name} club updated successfully.`, data })
+    return res.json({ 
+      message: `${data.name} club updated successfully.`, 
+      ...data.toObject(),
+      spent: data.getBudgetSpent()
+    })
   } catch (err) {
-    return res.status(500).json({ message: err.message })
+    next(err)
   }
 }
 
-clubController.deleteClub = async (req, res) => {
+clubController.deleteClub = async (req, res, next) => {
   try {
     const data = await Club.findByIdAndDelete(req.params.id)
     return res.json({ message: `${data.name} club deleted successfully.`, data })
   } catch (err) {
-    return res.status(500).json({ message: err.message })
+    next(err)
   }
 }
 

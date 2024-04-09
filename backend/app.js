@@ -24,4 +24,9 @@ app.use('/club', clubRouter)
 app.use('/society', societyRouter)
 app.use('/proposal', proposalRouter)
 
+app.use((err, req, res, next) => {
+  console.log(err.message)
+  return res.status(500).json({ message: "Something went wrong.", error: err.message })
+})
+
 module.exports = app

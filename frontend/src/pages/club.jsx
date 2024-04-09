@@ -399,6 +399,7 @@ export default function ClubTable() {
                     onChange={(e) =>
                       handleInputChange("fa_email", e.target.value)
                     }
+                    value={currentRow?.fa_email}
                     type="email"
                     placeholder="Enter your email"
                     required
@@ -419,6 +420,7 @@ export default function ClubTable() {
                     type="email"
                     placeholder="Enter your email"
                     required
+                    value={currentRow?.coordinator_email}
                   />
                 </div>
                 <div
