@@ -10,7 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import Node from "../components/Node";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/store/userStore";
-import {useNavigate} from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   Accordion,
@@ -20,19 +20,18 @@ import {
 } from "@/components/ui/accordion";
 
 function dashboard() {
-  const user = useUserStore(state => state.user)
-  const navigate = useNavigate()
-
+  const user = useUserStore((state) => state.user);
+  const navigate = useNavigate();
   useEffect(() => {
-    if(!user) {
-      navigate('/')
+    if (!user) {
+      navigate("/");
     }
-  }, [user, navigate])
+  }, [user, navigate]);
   const Status = ["Create Proposal", "Pending", "In Review", "Past"];
   const [status, setStatus] = useState(Status[1]);
   const [proposalmodal, setProposalModal] = useState(false);
   const [societymodal, setSocietyModal] = useState(false);
-  console.log(user);
+
   const handleStatus = (val) => {
     setStatus(val);
   };
@@ -68,7 +67,7 @@ function dashboard() {
               user: "KP",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -76,7 +75,7 @@ function dashboard() {
               user: "KP_sec",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -92,7 +91,7 @@ function dashboard() {
               user: "TECH_FA",
               created_at: "date",
               status: "rejected",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -100,7 +99,7 @@ function dashboard() {
               user: "CSAP",
               created_at: "date",
               status: "in review",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -108,7 +107,7 @@ function dashboard() {
               user: "DEAN",
               created_at: "date",
               status: "in review",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
           ],
@@ -123,7 +122,7 @@ function dashboard() {
               user: "KP",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -131,7 +130,7 @@ function dashboard() {
               user: "KP_sec",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -139,7 +138,7 @@ function dashboard() {
               user: "KP_FA",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -147,7 +146,7 @@ function dashboard() {
               user: "TECH_FA",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -155,7 +154,7 @@ function dashboard() {
               user: "CSAP",
               created_at: "date",
               status: "rejected",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -163,9 +162,9 @@ function dashboard() {
               user: "DEAN",
               created_at: "date",
               status: "in review",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
-            }
+            },
           ],
         },
         {
@@ -178,7 +177,7 @@ function dashboard() {
               user: "KP",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -186,7 +185,7 @@ function dashboard() {
               user: "KP_sec",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -194,7 +193,7 @@ function dashboard() {
               user: "KP_FA",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -202,7 +201,7 @@ function dashboard() {
               user: "TECH_FA",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -210,7 +209,7 @@ function dashboard() {
               user: "CSAP",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -218,9 +217,9 @@ function dashboard() {
               user: "DEAN",
               created_at: "date",
               status: "in review",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
-            }
+            },
           ],
         },
       ],
@@ -253,7 +252,7 @@ function dashboard() {
               user: "KP",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -261,7 +260,7 @@ function dashboard() {
               user: "KP_sec",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -269,7 +268,7 @@ function dashboard() {
               user: "KP_FA",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -277,7 +276,7 @@ function dashboard() {
               user: "TECH_FA",
               created_at: "date",
               status: "rejected",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -285,7 +284,7 @@ function dashboard() {
               user: "CSAP",
               created_at: "date",
               status: "in review",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -293,7 +292,7 @@ function dashboard() {
               user: "DEAN",
               created_at: "date",
               status: "in review",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
           ],
@@ -308,7 +307,7 @@ function dashboard() {
               user: "KP",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -316,7 +315,7 @@ function dashboard() {
               user: "KP_sec",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -324,7 +323,7 @@ function dashboard() {
               user: "KP_FA",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -332,7 +331,7 @@ function dashboard() {
               user: "TECH_FA",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -340,7 +339,7 @@ function dashboard() {
               user: "CSAP",
               created_at: "date",
               status: "approved",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
             {
@@ -348,7 +347,7 @@ function dashboard() {
               user: "DEAN",
               created_at: "date",
               status: "in review",
-               remark:
+              remark:
                 "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
             },
           ],
@@ -361,71 +360,89 @@ function dashboard() {
     <>
       <div className="p-5 flex flex-col gap-10 mt-5 px-10">
         <div className="flex gap-5 justify-between items-center">
-          <div className="flex gap-5">
-            <div
-              onClick={() => handleStatus(Status[1])}
-              className={`mx-1 flex h-[80px] ${
-                status === Status[1] ? "bg-blue-300" : ""
-              } w-[220px] cursor-pointer justify-between rounded-lg bg-[#F8F8F8] transition-all duration-400  pl-3 pt-2 shadow-lg`}
-            >
-              <div className="flex flex-col gap-1 py-1 pl-2 w-full">
-                <span className=" text-2xl font-semibold text-slate-600">
-                  0
-                </span>
-                <div className="flex justify-between">
-                  <span className=" text-sm font-medium">{Status[1]}</span>
-                  <span className="mr-5 text-red-500 text-xl">
-                    <MdPending />
+          <div className="flex justify-between items-center w-full">
+            <div className="flex gap-5">
+              <div
+                onClick={() => handleStatus(Status[1])}
+                className={`mx-1 flex h-[80px] ${
+                  status === Status[1] ? "bg-blue-300" : ""
+                } w-[220px] cursor-pointer justify-between rounded-lg bg-[#F8F8F8] transition-all duration-400  pl-3 pt-2 shadow-lg`}
+              >
+                <div className="flex flex-col gap-1 py-1 pl-2 w-full">
+                  <span className=" text-2xl font-semibold text-slate-600">
+                    0
                   </span>
+                  <div className="flex justify-between">
+                    <span className=" text-sm font-medium">{Status[1]}</span>
+                    <span className="mr-5 text-red-500 text-xl">
+                      <MdPending />
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                onClick={() => handleStatus(Status[2])}
+                className={`mx-1 flex h-[80px] w-[220px] ${
+                  status === Status[2] ? "bg-blue-300" : ""
+                } cursor-pointer justify-between rounded-lg bg-[#F8F8F8] transition-all duration-400  pl-3 pt-2 shadow-lg`}
+              >
+                <div className="flex flex-col gap-1 py-1 pl-2 w-full">
+                  <span className=" text-2xl font-semibold text-slate-600">
+                    0
+                  </span>
+                  <div className="flex justify-between">
+                    <span className=" text-sm font-medium">{Status[2]}</span>
+                    <span className="mr-5 text-red-500 text-xl">
+                      <MdOutlinePreview />
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                onClick={() => handleStatus(Status[3])}
+                className={`mx-1 flex h-[80px] w-[220px] ${
+                  status === Status[3] ? "bg-blue-300" : ""
+                } cursor-pointer justify-between rounded-lg bg-[#F8F8F8] transition-all duration-400 pl-3 pt-2 shadow-lg`}
+              >
+                <div className="flex w-full flex-col gap-1 py-1 pl-2">
+                  <span className=" text-2xl font-semibold text-slate-600">
+                    0
+                  </span>
+                  <div className="flex justify-between">
+                    <span className=" text-sm font-medium">{Status[3]}</span>
+                    <span className="mr-5 text-red-500 text-xl">
+                      <MdHistory />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-            <div
-              onClick={() => handleStatus(Status[2])}
-              className={`mx-1 flex h-[80px] w-[220px] ${
-                status === Status[2] ? "bg-blue-300" : ""
-              } cursor-pointer justify-between rounded-lg bg-[#F8F8F8] transition-all duration-400  pl-3 pt-2 shadow-lg`}
-            >
-              <div className="flex flex-col gap-1 py-1 pl-2 w-full">
-                <span className=" text-2xl font-semibold text-slate-600">
-                  0
-                </span>
-                <div className="flex justify-between">
-                  <span className=" text-sm font-medium">{Status[2]}</span>
-                  <span className="mr-5 text-red-500 text-xl">
-                    <MdOutlinePreview />
-                  </span>
-                </div>
+            {user && user.displayName === 'Dean Students'  && (
+              <div className="flex gap-5">
+                <Link
+                  to="/club"
+                  class="bg-blue-500 transition-all duration-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Clubs
+                </Link>
+                <Link
+                  to="/society"
+                  class="bg-blue-500 transition-all duration-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Societies
+                </Link>
               </div>
-            </div>
-            <div
-              onClick={() => handleStatus(Status[3])}
-              className={`mx-1 flex h-[80px] w-[220px] ${
-                status === Status[3] ? "bg-blue-300" : ""
-              } cursor-pointer justify-between rounded-lg bg-[#F8F8F8] transition-all duration-400 pl-3 pt-2 shadow-lg`}
-            >
-              <div className="flex w-full flex-col gap-1 py-1 pl-2">
-                <span className=" text-2xl font-semibold text-slate-600">
-                  0
-                </span>
-                <div className="flex justify-between">
-                  <span className=" text-sm font-medium">{Status[3]}</span>
-                  <span className="mr-5 text-red-500 text-xl">
-                    <MdHistory />
-                  </span>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
           {user && user.email === "kamandprompt85@gmail.com" && (
             <>
               {/* // if user Club */}
               <div
                 onClick={() => setProposalModal(true)}
-                className=" flex flex-col items-center justify-center cursor-pointer text-blue-500 text-4xl"
+                className="flex flex-col items-center justify-end cursor-pointer text-blue-500 text-4xl"
               >
                 <IoIosAddCircle />
-                <span className="text-black text-sm">Create New Proposal</span>
+                <span className="text-black text-nowrap text-sm">Create New Proposal</span>
               </div>
             </>
           )}
