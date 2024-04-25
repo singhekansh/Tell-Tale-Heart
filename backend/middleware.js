@@ -59,11 +59,11 @@ module.exports.authenticate = async (req, res, next) => {
     .verifyIdToken(idtoken)
     .then((decodedtoken) => {
       auth.getUser(decodedtoken.uid)
-        .then((userRecord) => {
+        .then(async (userRecord) => {
           req.name = userRecord.displayName
           req.email = userRecord.email
           try {
-            req.user_type = assignUserType(res, userRecord.email)
+            req.user_type = await assignUserType(res, userRecord.email)
             if(!req.user_type) return res.status(500).json({ message: 'You are not authorized.' })
             return next()
           } catch(err) {

@@ -20,9 +20,13 @@ app.get('/', (req, res) => {
 })
 
 app.use(authenticate)
+app.get('/me', (req, res, next) => {
+  return res.json({ name: req.name, email: req.email, user_type: req.user_type })
+})
+app.use('/proposal', proposalRouter)
+
 app.use('/club', clubRouter)
 app.use('/society', societyRouter)
-app.use('/proposal', proposalRouter)
 
 app.use((err, req, res, next) => {
   console.log(err.message)

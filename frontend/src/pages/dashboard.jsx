@@ -21,6 +21,7 @@ import {
 
 function dashboard() {
   const user = useUserStore((state) => state.user);
+  const user_type = useUserStore((state) => state.user_type)
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
@@ -417,7 +418,7 @@ function dashboard() {
                 </div>
               </div>
             </div>
-            {user && user.displayName === 'Dean Students'  && (
+            {user_type && user_type  === 'CSAP'  && (
               <div className="flex gap-5">
                 <Link
                   to="/club"

@@ -49,7 +49,7 @@ const logout = async () => {
 function Nav() {
   const [shownotifications, setShowNotifications] = useState(false);
   const user = useUserStore((state) => state.user);
-
+  const user_type = useUserStore((state) => state.user_type)
   const notifications = [
     {
       isNew: true,
@@ -81,7 +81,7 @@ function Nav() {
       </div>
       <div className="flex items-center gap-10">
         {user && (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-10">
             <Sheet>
               <SheetTrigger>
                 <FaBell className="text-xl text-blue-500 cursor-pointer" />
@@ -115,15 +115,16 @@ function Nav() {
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger>
-                  <div className="flex justify-between items-center gap-3 w-full">
-                    <div className="h-12 w-12 gap-1 flex items-center">
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="h-12 gap-3 flex items-center">
                       <img
-                        className=" rounded-full"
+                        className="h-12 w-12 rounded-full"
                         src={user.photoURL}
                         alt="text"
                       />
-                      <span className="text-xs flex  font-medium">
-                        {user.displayName}
+                      <span className="text-md flex flex-col font-medium">
+                        <span>{user.displayName ?? ""}</span>
+                        <span class="text-xs">{user_type ?? ""}</span>
                       </span>
                     </div>
                   </div>
