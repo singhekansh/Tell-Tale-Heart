@@ -511,7 +511,7 @@ export default function dashboard() {
                 </div>
               </div>
             </div>
-            {user_type && user_type  === 'CSAP'  && (
+            {user_type && user_type  === 'Dean Students'  && (
               <div className="flex gap-5">
                 <Link
                   to="/club"
