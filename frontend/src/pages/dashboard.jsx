@@ -22,13 +22,19 @@ import { toast } from "@/components/ui/use-toast";
 import { ApiWithAuth } from "@/lib/axios";
 
 const validateData = (data) => {
-  console.log(data);
-  if (data.society?.length === 0) return "Please select a society";
-  if (data.name?.length === 0) return "Please enter valid club name";
-  if (data.budget <= 0) return "Please enter valid budget";
-  if (data.fa_email?.length === 0) return "Please enter Club FA email";
-  if (data.coordinator_email?.length === 0)
-    return "Please enter Coordinator email";
+  if(!data.title) return "Please enter title."
+  if(!data.bill) return "Please enter Bill Number."
+  if(!data.supplier) return "Please enter Supplier."
+  if(!data.amount) return "Please enter amount."
+  if(!data.quantity) return "Please enter quantity."
+  if(!data.description) return "Please enter description."
+  if(!data.category) return "Please enter category."
+  if(!data.section) return "Please enter section."
+  if(!data.head) return "Please enter head."
+  if(!data.fund) return "Please enter fund."
+  if(!data.payment) return "Please enter payment."
+  if(!data.type) return "Please enter type."
+  if(!data.purpose) return "Please enter purpose."
   return null;
 };
 
@@ -50,7 +56,6 @@ export default function dashboard() {
   const Status = ["Create Proposal", "Pending", "In Review", "Past"];
   const [status, setStatus] = useState(Status[1]);
   const [proposalmodal, setProposalModal] = useState(false);
-  const [societymodal, setSocietyModal] = useState(false);
 
   const handleStatus = (val) => {
     setStatus(val);
@@ -400,51 +405,9 @@ export default function dashboard() {
       setClubModal(false);
     } catch (err) {
       let error = err?.response?.data?.message || err.message;
-      console.error("POST /club: ", error);
+      console.error("POST /proposal: ", error);
       toast({
-        title: "Failed to create new club",
-        description: error,
-      });
-    }
-  };
-
-  const editClub = async () => {
-    console.log("currentRow: ", currentRow);
-    const id = currentRow._id;
-    const data = currentRow;
-    try {
-      console.log(data);
-      const updatedClub = (await ApiWithAuth.put(`/club/${id}`, data)).data
-        .data;
-      console.log("PUT /club: ", updatedClub);
-      getClubs();
-      // setClub([
-      //   updatedClub,
-      //   ...club.filter((s) => s._id !== id),
-      // ])
-      setEditModal(false);
-    } catch (err) {
-      let error = err?.response?.data?.message || err.message;
-      console.error("PUT /club: ", error);
-      toast({
-        title: "Failed to update club",
-        description: error,
-      });
-    }
-  };
-
-  const deleteClub = async () => {
-    const id = currentRow._id;
-    try {
-      const deleteClub = await ApiWithAuth.delete(`/club/${id}`);
-      console.log("DELETE /club: ", deleteClub);
-      setClub([...club.filter((s) => s._id !== id)]);
-      setDelModal(false);
-    } catch (err) {
-      let error = err?.response?.data?.message || err.message;
-      console.error("DELETE /club: ", error);
-      toast({
-        title: "Failed to delete club",
+        title: "Failed to create new proposal",
         description: error,
       });
     }
@@ -596,8 +559,7 @@ export default function dashboard() {
                               <span className="text-md">{val.club}</span>
                             </div>
                           </div>
-                          {user &&
-                            user.email === "studentsdean554@gmail.com" && (
+                          { user_type && user_type.includes("CSAP") && (
                               <div className="flex gap-2 z-50">
                                 <Button
                                   onClick={(e) => {
@@ -694,8 +656,7 @@ export default function dashboard() {
           )}
         </div>
 
-        <AddProposal modal={proposalmodal} setModal={setProposalModal} />
-        <AddSociety modal={societymodal} setModal={setSocietyModal} />
+        <AddProposal modal={proposalmodal} setModal={setProposalModal} submit={addProposals} />
       </div>
     </>
   );

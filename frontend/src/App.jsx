@@ -48,7 +48,7 @@ export default function App() {
       setUser({ user_type: data.user_type });
     } catch (err) {
       let error = err?.response?.data?.message || err.message;
-      console.error("GET /club: ", error);
+      console.error("GET /me: ", error);
     }
   }
   

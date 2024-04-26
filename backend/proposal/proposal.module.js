@@ -82,7 +82,8 @@ const ProposalSchema = new mongoose.Schema({
         required: true
       },
       club_email: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Club',
         required: true
       },
       updates: {

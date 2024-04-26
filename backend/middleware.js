@@ -64,7 +64,7 @@ module.exports.authenticate = async (req, res, next) => {
           req.email = userRecord.email
           try {
             req.user_type = await assignUserType(res, userRecord.email)
-            if(!req.user_type) return res.status(500).json({ message: 'You are not authorized.' })
+            if(!req.user_type) return res.status(401).json({ message: 'You are not authorized.' })
             return next()
           } catch(err) {
             console.log('Failed to assign user type because ', err.message)

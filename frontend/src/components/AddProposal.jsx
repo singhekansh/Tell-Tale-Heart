@@ -13,16 +13,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FaF, FaL } from "react-icons/fa6";
 
-const Modal = ({ modal, setModal, data, setdata }) => {
+const Modal = ({ modal, setModal, submit }) => {
   const [inpts, setInpts] = React.useState({
     title: "",
-    date: "",
     bill: "",
     supplier: "",
-    qty: "",
-    amt: "",
-    desc: "",
-    cat: "",
+    amount: "",
+    quantity: "",
+    description: "",
+    category: "",
     section: "",
     head: "",
     fund: "",
@@ -51,7 +50,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                 </div>
                 <div>
                   <div className="mt-4 flex w-[100%] max-md:flex-col  gap-5 px-5 ">
-                    <div className="mb-5 md:w-1/2">
+                    <div className="mb-5 w-full">
                       <label
                         htmlFor="title"
                         className="text-md mb-2 block flex-grow   pl-1 font-medium text-gray-900 "
@@ -63,20 +62,6 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                           handleInputChange("title", e.target.value)
                         }
                         type="text"
-                      />
-                    </div>
-                    <div className="mb-5 md:w-1/2">
-                      <label
-                        htmlFor="date"
-                        className="text-md mb-2 block w-1/2 pl-1 font-medium text-gray-900 "
-                      >
-                        Date <span className="text-red-500">*</span>
-                      </label>
-                      <Input
-                        onChange={(e) =>
-                          handleInputChange("date", e.target.value)
-                        }
-                        type="Date"
                       />
                     </div>
                   </div>
@@ -122,32 +107,32 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                       Quantity
                     </label>
                     <Input
-                      onChange={(e) => handleInputChange("qty", e.target.value)}
+                      onChange={(e) => handleInputChange("quantity", e.target.value)}
                       type="Number"
                     />
                   </div>
                   <div className="mb-5 flex-grow">
                     <label
-                      htmlFor="amt"
+                      htmlFor="amount"
                       className="text-md mb-2 block  pl-1 font-medium text-gray-900 "
                     >
                       Amount
                     </label>
                     <Input
-                      onChange={(e) => handleInputChange("amt", e.target.value)}
+                      onChange={(e) => handleInputChange("amount", e.target.value)}
                       type="Number"
                     />
                   </div>
                 </div>
                 <div className="mt-4 w-[100%] flex-col  gap-5 px-5 ">
                   <label
-                    htmlFor="qty"
+                    htmlFor=""
                     className="text-md mb-2 block  pl-1 font-medium text-gray-900 "
                   >
                     Description of Item
                   </label>
                   <Textarea
-                    onChange={(e) => handleInputChange("desc", e.target.value)}
+                    onChange={(e) => handleInputChange("description", e.target.value)}
                   />
                 </div>
                 <div className="mt-4 flex w-[100%] max-lg:flex-col  gap-5 px-5 ">
@@ -159,7 +144,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                       Sub Category
                     </label>
                     <Input
-                      onChange={(e) => handleInputChange("cat", e.target.value)}
+                      onChange={(e) => handleInputChange("category", e.target.value)}
                       type="text"
                     />
                   </div>
@@ -240,7 +225,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                 </div>
                 <div className="mt-4 w-[100%] flex-col  gap-5 px-5 ">
                   <label
-                    htmlFor="qty"
+                    htmlFor=""
                     className="text-md mb-2 block  pl-1 font-medium text-gray-900 "
                   >
                     Purpose of Proposal
@@ -251,7 +236,7 @@ const Modal = ({ modal, setModal, data, setdata }) => {
                     }
                   />
                 </div>
-                <div onClick={() => setModal(false)} className="flex w-[100%] max-lg:flex-col mt-5 md:justify-end justify-center items-center pr-5">
+                <div onClick={() => submit(inpts)} className="flex w-[100%] max-lg:flex-col mt-5 md:justify-end justify-center items-center pr-5">
                   <span className="flex  justify-center mx-5 cursor-pointer items-center gap-2 rounded-lg bg-[#0065C1] px-5 py-2 text-white shadow-md hover:shadow-blue-400">
                     Save Changes
                   </span>
