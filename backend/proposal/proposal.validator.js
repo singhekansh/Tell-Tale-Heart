@@ -45,12 +45,6 @@ proposalValidators.createNewProposal = [
   body('purpose')
     .notEmpty()
     .withMessage('Please enter purpose of proposal.'),
-  body('club')
-    .notEmpty()
-    .withMessage('Please enter club.'),
-  body('updates')
-    .notEmpty()
-    .withMessage('Please enter updates.'),
 ];
 
 proposalValidators.updateProposal = [

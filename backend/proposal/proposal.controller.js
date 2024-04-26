@@ -1,11 +1,13 @@
-const { getLatestBlock } = require("../utils");
+const Club = require("../club/club.module");
+const { getLatestBlock, populateApprovalChain } = require("../utils");
 const Proposal = require("./proposal.module");
 
 let proposalController = {};
 
 proposalController.getAllProposals = async (req, res) => {
   try {
-    const data = await Proposal.find();
+    let data = await Proposal.find().populate('club', '_id name society').populate("club.society", "_id");
+    data = await Promise.all(data.map(async (prp) => await populateApprovalChain(prp)))
     return res.json({ message: "Success", data });
   } catch (err) {
     return res.status(500).json({ message: err.message });
@@ -13,6 +15,8 @@ proposalController.getAllProposals = async (req, res) => {
 };
 
 proposalController.createNewProposal = async (req, res) => {
+
+
   const {
     title,
     bill,
@@ -30,6 +34,9 @@ proposalController.createNewProposal = async (req, res) => {
   } = req.body;
 
   try {
+    const club_id = (await Club.findOne({ coordinator_email: req.email }, '_id'))?._id
+    if(!club_id) return res.status(401).json({ message: "No club found associated with your email." })
+
     const data = await Proposal.create({
       title,
       bill,
@@ -44,10 +51,10 @@ proposalController.createNewProposal = async (req, res) => {
       payment,
       type,
       purpose,
-      club_email: req.email,
-      updates: {
-        progress: [{ user: req.name, user_type: req.user_type, remark: '', status: 'Approved' }]
-      }
+      club: club_id,
+      updates: [{
+        progress: [{ user: req.user_type, user_type: "club", remark: '', status: 'approved' }]
+      }]
     });
     return res.json({
       message: `${data.name} proposal created successfully.`,

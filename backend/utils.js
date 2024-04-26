@@ -1,7 +1,8 @@
 const { validationResult } = require('express-validator')
 const Society = require('./society/society.module')
+const Club = require('./club/club.module')
 
-module.exports.checkErrors = (req, res, next) => {
+const checkErrors = (req, res, next) => {
   const errors = validationResult(req)
   if(errors.isEmpty()) {
     next()
@@ -10,7 +11,102 @@ module.exports.checkErrors = (req, res, next) => {
   }
 }
 
-module.exports.checkSocietyExists = async (id) => {
+const nextApprovalBlock = (progressChain, proposalBudget, clubName, societyName, isClubBudgetExceeded, isSocietyBudgetExceeded) => {
+  const latestBlk = getLatestBlock(progressChain);
+
+  if(latestBlk.user_type === "club") {
+    if(latestBlk.status === "approved") 
+      progressChain.push({ 
+        _id: `${Math.random()}`, 
+        user: proposalBudget > 15000 ? `Secretary - ${societyName}` : `FA - ${clubName}`, 
+        user_type: proposalBudget > 15000 ? "secretary" : `club_fa` , 
+        status: "waiting", 
+        remark: "",
+        createdAt: new Date().toISOString()
+      })
+  } 
+
+  else if(latestBlk.user_type === "secretary") {
+    if(latestBlk.status === "approved" || latestBlk.status === "waiting") 
+      progressChain.push({ 
+        _id: `${Math.random()}`, 
+        user: `FA - ${clubName}`, 
+        user_type: "club_fa", 
+        status: "waiting", 
+        remark: "",
+        createdAt: new Date().toISOString()
+      })
+  } 
+
+  else if(latestBlk.user_type === "club_fa") {
+    if(latestBlk.status === "approved" || latestBlk.status === "waiting") 
+      progressChain.push({ 
+        _id: `${Math.random()}`, 
+        user: `FA - ${societyName}`, 
+        user_type: "society_fa", 
+        status: "waiting", 
+        remark: "",
+        createdAt: new Date().toISOString()
+      })
+  } 
+  else if(latestBlk.user_type === "society_fa") {
+    if(proposalBudget <= 15000) return null
+    if(latestBlk.status === "approved" || latestBlk.status === "waiting") 
+      progressChain.push({ 
+        _id: `${Math.random()}`,
+        user: `Chair CSAP`, 
+        user_type: "csap", 
+        status: "waiting", 
+        remark: "",
+        createdAt: new Date().toISOString()
+      })
+  } 
+  else if(latestBlk.user_type === "csap") {
+    if(proposalBudget <= 50000) return null
+    if(latestBlk.status === "approved" || latestBlk.status === "waiting") 
+      progressChain.push({ 
+        _id: `${Math.random()}`,
+        user: `Dean Students`, 
+        user_type: `dean_students`, 
+        status: "waiting", 
+        remark: "",
+        createdAt: new Date().toISOString()
+      })
+  } 
+  else if(latestBlk.user_type === "dean_students") {
+    return null
+  } 
+
+  return progressChain
+}
+ 
+const populateApprovalChain = async (proposal) => {
+  try {
+
+    const club = await Club.findById(proposal.club._id, '');
+    const society = await Society.findById(proposal.club.society._id);
+    
+    if(!club) throw new Error("Cannot find club.")
+    if(!society) throw new Error("Cannot find society.")
+    const isClubBudgetExceeded = await club.getBudgetSpent() + proposal.amount > club.budget
+    const isSocietyBudgetExceeded = await society.getBudgetSpent() + proposal.amount > society.budget
+    
+    const latestUpdateChain = getLatestBlock(proposal.updates);
+    
+    while(nextApprovalBlock(latestUpdateChain.progress, proposal.amount, club.name, society.name, isClubBudgetExceeded, isSocietyBudgetExceeded)) {
+      await new Promise((resolve, reject) => {
+        setTimeout(resolve, 10)
+      })
+    }
+    return proposal
+  } catch(err) {
+    console.error(err)
+    return proposal
+  }
+
+} 
+
+const checkSocietyExists = async (id) => {
   const doesSocietyExists = await Society.findById(id);
   if(!doesSocietyExists) {
     return false
@@ -19,7 +115,7 @@ module.exports.checkSocietyExists = async (id) => {
   }
 }
 
-module.exports.getLatestBlock = (dataArray) => {
+const getLatestBlock = (dataArray) => {
   let t = { createdAt: null }
   dataArray.forEach((data) => {
     if(new Date(t.createdAt).getTime() < new Date(data.createdAt).getTime()) {
@@ -28,4 +124,12 @@ module.exports.getLatestBlock = (dataArray) => {
   })
   if(!t.createdAt) throw new Error('Invalid Data.')
   return t
+}
+
+module.exports = {
+  checkErrors,
+  // nextApprovalBlock,
+  populateApprovalChain,
+  checkSocietyExists,
+  getLatestBlock
 }

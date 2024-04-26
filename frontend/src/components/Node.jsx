@@ -8,6 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { DateTime } from "luxon";
 
 
 function Node({size,data,i}) {
@@ -16,7 +17,10 @@ function Node({size,data,i}) {
       <PopoverTrigger className="flex items-center">
         <div className="flex relative flex-col gap-1 border p-3 rounded-md">
           <span>Role: {data.user}</span>
-          <span>Date: {data.created_at}</span>
+          {
+            data.createdAt && data.status !== "waiting" && 
+            <span>Date: { DateTime.fromISO(data.createdAt).toLocaleString(DateTime.DATE_MED) }</span>
+          }
           <div className=" absolute -top-2 -right-2">
             {data.status === "approved" ? (
               <IoCheckmarkDoneCircleSharp className="text-lg text-green-700" />

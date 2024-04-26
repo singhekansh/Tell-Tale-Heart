@@ -7,16 +7,15 @@ const ProgressSchema = new mongoose.Schema({
   user_type: {
     type: String,
     required: true,
-    enum: ["club", "secretary", "club_fa", "society_fa", "chair_sap", "dean_students", "student_office"]
+    enum: ["club", "secretary", "club_fa", "society_fa", "csap", "dean_students", "student_office"]
   },
   status: {
     type: String,
     required: true,
-    enum: ["approved", "rejected", "waiting"]
+    enum: ["approved", "rejected"]
   },
   remark: {
     type: String,
-    required: true
   },
 }, { timestamps: true })
 
@@ -81,7 +80,7 @@ const ProposalSchema = new mongoose.Schema({
         type: String,
         required: true
       },
-      club_email: {
+      club: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Club',
         required: true

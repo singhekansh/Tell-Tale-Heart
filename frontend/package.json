@@ -23,6 +23,7 @@
     "firebase": "^10.8.0",
     "localforage": "^1.10.0",
     "lucide-react": "^0.323.0",
+    "luxon": "^3.4.4",
     "match-sorter": "^6.3.4",
     "primereact": "^10.5.0",
     "react": "^18.2.0",
