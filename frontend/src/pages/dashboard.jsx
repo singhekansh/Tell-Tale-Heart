@@ -496,10 +496,10 @@ export default function dashboard() {
               {/* // if user Club */}
               <div
                 onClick={() => setProposalModal(true)}
-                className="flex flex-col justify-center cursor-pointer text-blue-500 text-4xl"
+                className="flex flex-col justify-center  items-center cursor-pointer text-blue-500 text-4xl"
               >
                 <IoIosAddCircle />
-                <span className="text-black text-nowrap text-sm">New Proposal</span>
+                <span className="text-black text-nowrap text-sm"> Create New Proposal</span>
               </div>
             </>
           )}
