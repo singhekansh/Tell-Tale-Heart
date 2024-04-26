@@ -25,22 +25,22 @@ proposalValidators.createNewProposal = [
     .notEmpty()
     .withMessage('Please enter description of the item.'),
   body('category')
-    .notEmpty()
+    .isString()
     .withMessage('Please enter sub category.'),
   body('section')
-    .notEmpty()
+    .isString()
     .withMessage('Please enter section.'),
   body('head')
     .notEmpty()
     .withMessage('Please enter budget head.'),
   body('fund')
-    .notEmpty()
+    .isString()
     .withMessage('Please enter fund.'),
   body('payment')
-    .notEmpty()
+    .isString()
     .withMessage('Please enter pass of payment.'),
   body('type')
-    .notEmpty()
+    .isString()
     .withMessage('Please enter bill settlement type.'),
   body('purpose')
     .notEmpty()

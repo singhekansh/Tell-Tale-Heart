@@ -28,12 +28,7 @@ const validateData = (data) => {
   if(!data.amount) return "Please enter amount."
   if(!data.quantity) return "Please enter quantity."
   if(!data.description) return "Please enter description."
-  if(!data.category) return "Please enter category."
-  if(!data.section) return "Please enter section."
   if(!data.head) return "Please enter head."
-  if(!data.fund) return "Please enter fund."
-  if(!data.payment) return "Please enter payment."
-  if(!data.type) return "Please enter type."
   if(!data.purpose) return "Please enter purpose."
   return null;
 };
