@@ -23,6 +23,7 @@ import { ApiWithAuth } from "@/lib/axios";
 import { useUserStore } from "@/store/userStore";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
+import Loading from "@/components/Loading";
 
 const validateData = (data) => {
   console.log(data);
@@ -250,26 +251,27 @@ export default function ClubTable() {
       <div className="w-full pt-10 px-10">
         <Link
           to="/dashboard"
-          class="bg-gray-300 flex gap-2 items-center w-[max-content] rounded-lg hover:bg-gray-400 text-gray-800 transition-all duration-500 font-bold py-2 px-4 "
+          class="bg-blue-500 flex gap-2 items-center w-[max-content] rounded-lg hover:bg-blue-700 text-white transition-all duration-300 font-bold py-2 px-4 "
         >
           <MdSkipPrevious /> return to dashboard
         </Link>
       </div>
-      <div className="card rounded-md px-10 pb-10">
+      <div className="card px-10 pb-10 pt-10 rounded-lg">
         <AddClub
           modal={clubmodal}
           setModal={setClubModal}
           society={society}
           addClub={addClub}
         />
-        <DataTable
-          className=" rounded-md"
+        {loading && <Loading/>}
+
+        {!loading && <DataTable
+          className=" rounded-lg shadow-md"
           value={club}
           dataKey="id"
           filters={filters}
           header={renderHeader}
           emptyMessage="No club found."
-          loading={loading}
         >
           <Column
             field="name"
@@ -308,7 +310,7 @@ export default function ClubTable() {
             filterPlaceholder="Search by Coordinator Email"
           />
           <Column field="Update" header="Update" body={renderUpdateColumn} />
-        </DataTable>
+        </DataTable>}
 
         <Dialog open={delModal}>
           <DialogContent>

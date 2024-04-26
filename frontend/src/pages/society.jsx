@@ -22,6 +22,7 @@ import { ApiWithAuth } from "@/lib/axios";
 import { useUserStore } from "@/store/userStore";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
+import Loading from "@/components/Loading";
 
 const validateData = (data) => {
   if (data.name?.length === 0) return "Please enter valid Society Name.";
@@ -168,10 +169,12 @@ export default function SocietyTable() {
     if (error) return toast({ title: error });
 
     try {
+      setSocietyModal(false);
+      setloading(true);
       const newSociety = (await ApiWithAuth.post("/society", data)).data.data;
       console.log("POST /society: ", newSociety);
       setSociety([newSociety, ...society]);
-      setSocietyModal(false);
+      setloading(false);
     } catch (err) {
       let error = err?.response?.data?.message || err.message;
       console.error("POST /society: ", error);
@@ -186,11 +189,13 @@ export default function SocietyTable() {
     const id = currentRow._id;
     const data = currentRow;
     try {
+      setEditModal(false);
+      setloading(true);
       const updatedSociety = (await ApiWithAuth.put(`/society/${id}`, data))
         .data.data;
       console.log("PUT /society: ", updatedSociety);
       setSociety([updatedSociety, ...society.filter((s) => s._id !== id)]);
-      setEditModal(false);
+      setloading(true);
     } catch (err) {
       let error = err?.response?.data?.message || err.message;
       console.error("PUT /society: ", error);
@@ -204,9 +209,11 @@ export default function SocietyTable() {
   const deleteSociety = async () => {
     const id = currentRow._id;
     try {
+      setDelModal(false);
+      setloading(true);
       await ApiWithAuth.delete(`/society/${id}`);
       setSociety([...society.filter((s) => s._id !== id)]);
-      setDelModal(false);
+      setloading(false);
     } catch (err) {
       let error = err?.response?.data?.message || err.message;
       console.error("DELETE /society: ", error);
@@ -226,7 +233,7 @@ export default function SocietyTable() {
       <div className="w-full pt-10 px-10">
         <Link
           to="/dashboard"
-          class="bg-gray-300 flex gap-2 items-center w-[max-content] rounded-lg hover:bg-gray-400 text-gray-800 transition-all duration-500 font-bold py-2 px-4 "
+          class="bg-blue-500 flex gap-2 items-center w-[max-content] rounded-lg hover:bg-blue-700 text-white transition-all duration-300 font-bold py-2 px-4 "
         >
           <MdSkipPrevious /> return to dashboard
         </Link>
@@ -237,46 +244,50 @@ export default function SocietyTable() {
           setModal={setSocietyModal}
           addSociety={addSociety}
         />
-        <DataTable
-          value={society}
-          dataKey="id"
-          filters={filters}
-          header={renderHeader}
-          emptyMessage="No society found."
-          loading={loading}
-        >
-          <Column
-            field="name"
-            header="Name"
-            filter
-            filterPlaceholder="Search by name"
-          />
-          <Column
-            field="budget"
-            header="Budget"
-            filter
-            filterPlaceholder="Search by budget"
-          />
-          <Column
-            field="spent"
-            header="Spent"
-            filter
-            filterPlaceholder="Search by spent"
-          />
-          <Column
-            field="fa_email"
-            header="FA Email"
-            filter
-            filterPlaceholder="Search by FA Email"
-          />
-          <Column
-            field="secretary_email"
-            header="Secretary Email"
-            filter
-            filterPlaceholder="Search by Secretary Email"
-          />
-          <Column field="Update" header="Update" body={renderUpdateColumn} />
-        </DataTable>
+        {loading && <Loading />}
+        {!loading && (
+          <DataTable
+            className="shadow-md"
+            value={society}
+            dataKey="id"
+            filters={filters}
+            header={renderHeader}
+            emptyMessage="No society found."
+            loading={loading}
+          >
+            <Column
+              field="name"
+              header="Name"
+              filter
+              filterPlaceholder="Search by name"
+            />
+            <Column
+              field="budget"
+              header="Budget"
+              filter
+              filterPlaceholder="Search by budget"
+            />
+            <Column
+              field="spent"
+              header="Spent"
+              filter
+              filterPlaceholder="Search by spent"
+            />
+            <Column
+              field="fa_email"
+              header="FA Email"
+              filter
+              filterPlaceholder="Search by FA Email"
+            />
+            <Column
+              field="secretary_email"
+              header="Secretary Email"
+              filter
+              filterPlaceholder="Search by Secretary Email"
+            />
+            <Column field="Update" header="Update" body={renderUpdateColumn} />
+          </DataTable>
+        )}
 
         <Dialog open={delModal}>
           <DialogContent>

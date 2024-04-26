@@ -69,7 +69,7 @@ function Nav() {
   ];
 
   return (
-    <div className="w-full h-[5rem] flex items-center justify-between shadow-lg">
+    <div className="w-full h-[5rem] flex bg-white items-center justify-between shadow-md">
       <div className="mx-8">
         {" "}
         <a href="#">
@@ -79,9 +79,9 @@ function Nav() {
       <div className="text-2xl font- max-lg:text-base font-['Gothic A1'] text-[#001d3f] font-bold">
         Student Gymkhana - IIT Mandi
       </div>
-      <div className="flex items-center gap-10">
+      <div className="flex justify-end ">
         {user && (
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-3">
             <Sheet>
               <SheetTrigger>
                 <FaBell className="text-xl text-blue-500 cursor-pointer" />
@@ -145,7 +145,7 @@ function Nav() {
             </div>
           </div>
         )}
-        <div className="flex flex-col items-center justify-center mx-8 space-y-2">
+        <div className="flex flex-col items-center justify-end mx-8 space-y-2">
           {!user && (
             <button
               onClick={googleLogin}

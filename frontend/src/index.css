@@ -3,7 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
- 
+body{
+  background-color: #E3E6EA;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
