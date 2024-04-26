@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/accordion";
 import { toast } from "@/components/ui/use-toast";
 import { ApiWithAuth } from "@/lib/axios";
+import Loading from "@/components/Loading";
 
 const validateData = (data) => {
   if(!data.title) return "Please enter title."
@@ -460,7 +461,7 @@ export default function dashboard() {
               />
               <figcaption className="text-[#2863C2]">No Data Found!</figcaption>
             </figure>
-          ) : (
+          ) : loading ? <Loading /> : (
             proposals2.map((val, index) => {
               const [hist, setHist] = useState(false);
 
