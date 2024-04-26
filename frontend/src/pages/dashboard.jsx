@@ -18,16 +18,35 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { toast } from "@/components/ui/use-toast";
+import { ApiWithAuth } from "@/lib/axios";
 
-function dashboard() {
+const validateData = (data) => {
+  console.log(data);
+  if (data.society?.length === 0) return "Please select a society";
+  if (data.name?.length === 0) return "Please enter valid club name";
+  if (data.budget <= 0) return "Please enter valid budget";
+  if (data.fa_email?.length === 0) return "Please enter Club FA email";
+  if (data.coordinator_email?.length === 0)
+    return "Please enter Coordinator email";
+  return null;
+};
+
+export default function dashboard() {
   const user = useUserStore((state) => state.user);
   const user_type = useUserStore((state) => state.user_type)
   const navigate = useNavigate();
+
+
+  const [loading, setloading] = useState(false);
+  const [proposals, setProposals] = useState([]);
+
   useEffect(() => {
     if (!user) {
       navigate("/");
     }
   }, [user, navigate]);
+
   const Status = ["Create Proposal", "Pending", "In Review", "Past"];
   const [status, setStatus] = useState(Status[1]);
   const [proposalmodal, setProposalModal] = useState(false);
@@ -36,7 +55,401 @@ function dashboard() {
   const handleStatus = (val) => {
     setStatus(val);
   };
-  
+
+  const [data, setData] = useState([]);
+  const [showHist, setShowHist] = useState(false);
+  const proposals2 = [
+    {
+      title: "New",
+      date: "24th jan",
+      bill: "bill",
+      supplier: "supplier",
+      quantity: "quantity",
+      amount: "10000",
+      description:
+        "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+      category: "category",
+      section: "section",
+      head: "head",
+      fund: "fund",
+      payment: "payment",
+      type: "type",
+      purpose: "purpose",
+      club: "KamandPrompt",
+      updates: [
+        {
+          _id: "0",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          progress: [
+            {
+              _id: "0",
+              user: "KP",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "1",
+              user: "KP_sec",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "2",
+              user: "KP_FA",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "3",
+              user: "TECH_FA",
+              created_at: "date",
+              status: "rejected",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "4",
+              user: "CSAP",
+              created_at: "date",
+              status: "in review",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "5",
+              user: "DEAN",
+              created_at: "date",
+              status: "in review",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+          ],
+        },
+        {
+          _id: "1",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          progress: [
+            {
+              _id: "0",
+              user: "KP",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "1",
+              user: "KP_sec",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "2",
+              user: "KP_FA",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "3",
+              user: "TECH_FA",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "4",
+              user: "CSAP",
+              created_at: "date",
+              status: "rejected",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "5",
+              user: "DEAN",
+              created_at: "date",
+              status: "in review",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+          ],
+        },
+        {
+          _id: "1",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          progress: [
+            {
+              _id: "0",
+              user: "KP",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "1",
+              user: "KP_sec",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "2",
+              user: "KP_FA",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "3",
+              user: "TECH_FA",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "4",
+              user: "CSAP",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "5",
+              user: "DEAN",
+              created_at: "date",
+              status: "in review",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      title: "New",
+      date: "24th jan",
+      bill: "bill",
+      supplier: "supplier",
+      quantity: "quantity",
+      amount: "10000",
+      description:
+        "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+      category: "category",
+      section: "section",
+      head: "head",
+      fund: "fund",
+      payment: "payment",
+      type: "type",
+      purpose: "purpose",
+      club: "KamandPrompt",
+      updates: [
+        {
+          _id: "0",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          progress: [
+            {
+              _id: "0",
+              user: "KP",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "1",
+              user: "KP_sec",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "2",
+              user: "KP_FA",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "3",
+              user: "TECH_FA",
+              created_at: "date",
+              status: "rejected",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "4",
+              user: "CSAP",
+              created_at: "date",
+              status: "in review",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "5",
+              user: "DEAN",
+              created_at: "date",
+              status: "in review",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+          ],
+        },
+        {
+          _id: "1",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          progress: [
+            {
+              _id: "0",
+              user: "KP",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "1",
+              user: "KP_sec",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "2",
+              user: "KP_FA",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "3",
+              user: "TECH_FA",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "4",
+              user: "CSAP",
+              created_at: "date",
+              status: "approved",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+            {
+              _id: "5",
+              user: "DEAN",
+              created_at: "date",
+              status: "in review",
+              remark:
+                "The project is a data asset build on professionals in three key industry segments namely, Professional Services, Life Sciences and Technology with a specific set of data fields to map to a profile.",
+            },
+          ],
+        },
+      ],
+    },
+  ];
+
+  const getProposals = async () => {
+    try {
+      setloading(true);
+      const proposals = (await ApiWithAuth.get("/proposal")).data.data;
+      console.log("GET /proposal: ", clubs);
+      setloading(false);
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message;
+      console.error("GET /proposal: ", error);
+    }
+  };
+
+  const addProposals = async (data) => {
+    const error = validateData(data);
+    if (error) return toast({ title: error });
+
+    try {
+      const newProposal = (await ApiWithAuth.post("/proposal", data)).data.data;
+      console.log("POST /proposal: ", newProposal);
+      getProposals();
+      // setClub([newClub, ...club])
+      setClubModal(false);
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message;
+      console.error("POST /club: ", error);
+      toast({
+        title: "Failed to create new club",
+        description: error,
+      });
+    }
+  };
+
+  const editClub = async () => {
+    console.log("currentRow: ", currentRow);
+    const id = currentRow._id;
+    const data = currentRow;
+    try {
+      console.log(data);
+      const updatedClub = (await ApiWithAuth.put(`/club/${id}`, data)).data
+        .data;
+      console.log("PUT /club: ", updatedClub);
+      getClubs();
+      // setClub([
+      //   updatedClub,
+      //   ...club.filter((s) => s._id !== id),
+      // ])
+      setEditModal(false);
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message;
+      console.error("PUT /club: ", error);
+      toast({
+        title: "Failed to update club",
+        description: error,
+      });
+    }
+  };
+
+  const deleteClub = async () => {
+    const id = currentRow._id;
+    try {
+      const deleteClub = await ApiWithAuth.delete(`/club/${id}`);
+      console.log("DELETE /club: ", deleteClub);
+      setClub([...club.filter((s) => s._id !== id)]);
+      setDelModal(false);
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message;
+      console.error("DELETE /club: ", error);
+      toast({
+        title: "Failed to delete club",
+        description: error,
+      });
+    }
+  };
+
   return (
     <>
       <div className="p-5 flex flex-col gap-10 mt-5 px-11">
@@ -108,22 +521,22 @@ function dashboard() {
                 </Link>
                 <Link
                   to="/society"
-                  class="bg-blue-500 transition-all duration-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  class="bg-blue-500 transition-all duration-500 hover:bg-blue-70 text-white font-bold py-2 px-4 rounded"
                 >
                   Societies
                 </Link>
               </div>
             )}
           </div>
-          {user && user_type === "CLUB" && (
+          {user_type && user_type.includes('Cordinator') && (
             <>
               {/* // if user Club */}
               <div
                 onClick={() => setProposalModal(true)}
-                className="flex flex-col items-center justify-end cursor-pointer text-blue-500 text-4xl"
+                className="flex flex-col justify-center cursor-pointer text-blue-500 text-4xl"
               >
                 <IoIosAddCircle />
-                <span className="text-black text-nowrap text-sm">Create New Proposal</span>
+                <span className="text-black text-nowrap text-sm">New Proposal</span>
               </div>
             </>
           )}
@@ -133,7 +546,7 @@ function dashboard() {
           <div className="flex w-[100%] px-5 py-4 text-xl ">
             {status + " Proposals"}
           </div>
-          {proposals.size === 0 ? (
+          {proposals2.size === 0 ? (
             <figure className="flex flex-col items-center justify-center">
               <img
                 width="22"
@@ -145,7 +558,7 @@ function dashboard() {
               <figcaption className="text-[#2863C2]">No Data Found!</figcaption>
             </figure>
           ) : (
-            proposals.map((val, index) => {
+            proposals2.map((val, index) => {
               const [hist, setHist] = useState(false);
 
               return (
@@ -288,4 +701,3 @@ function dashboard() {
   );
 }
 
-export default dashboard;
