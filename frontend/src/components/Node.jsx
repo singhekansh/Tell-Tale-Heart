@@ -46,7 +46,7 @@ function Node({size,data,i}) {
       </PopoverTrigger>
       <PopoverContent>
         <div className="font-semibold">Remarks</div>
-        <p>{data.remark}</p>
+        <p>{data.remark?.length ? data.remark : "No remark."}</p>
       </PopoverContent>
     </Popover>
   );

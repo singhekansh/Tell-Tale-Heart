@@ -5,8 +5,8 @@ const Society = require('./society/society.module')
 const isClub = async (email) => {
   try {
     const club = await Club.findOne({ coordinator_email: email })
-    if(!club) {
-      return { data: null, status: false }  
+    if (!club) {
+      return { data: null, status: false }
     }
     return { data: club.name, status: true }
   } catch (err) {
@@ -19,12 +19,39 @@ const isClub = async (email) => {
 const isSecretary = async (email) => {
   try {
     const soc = await Society.findOne({ secretary_email: email })
-    if(!soc) {
+    if (!soc) {
       return { data: null, status: false }
     }
     return { data: soc.name, status: true }
-  } catch(err) {
-    console.error(err) 
+  } catch (err) {
+    console.error(err)
+    throw new Error('Error during querying societies: ', err.message)
+  }
+}
+
+const isClubFA = async (email) => {
+  try {
+    const club = await Club.findOne({ fa_email: email })
+    if (!club) {
+      return { data: null, status: false }
+    }
+    return { data: club.name, status: true }
+  } catch (err) {
+    console.error(err)
+    throw new Error('Error during querying clubs: ', err.message)
+  }
+
+}
+
+const isSecretaryFA = async (email) => {
+  try {
+    const soc = await Society.findOne({ fa_email: email })
+    if (!soc) {
+      return { data: null, status: false }
+    }
+    return { data: soc.name, status: true }
+  } catch (err) {
+    console.error(err)
     throw new Error('Error during querying societies: ', err.message)
   }
 }
@@ -37,7 +64,6 @@ const assignUserType = async (res, email) => {
   } else if (email === process.env.students_office_email) {
     return "Student Office"
   } else {
-    var data, status
     var { data, status } = await isSecretary(email)
     if (status) {
       return `Secretary - ${data}`
@@ -45,6 +71,14 @@ const assignUserType = async (res, email) => {
     var { data, status } = await isClub(email)
     if (status) {
       return `Cordinator - ${data}`
+    }
+    var { data, status } = await isSecretaryFA(email)
+    if (status) {
+      return `FA - ${data}`
+    }
+    var { data, status } = await isClubFA(email)
+    if (status) {
+      return `FA - ${data}`
     }
   }
 }
@@ -64,9 +98,9 @@ module.exports.authenticate = async (req, res, next) => {
           req.email = userRecord.email
           try {
             req.user_type = await assignUserType(res, userRecord.email)
-            if(!req.user_type) return res.status(401).json({ message: 'You are not authorized.' })
+            if (!req.user_type) return res.status(401).json({ message: 'You are not authorized.' })
             return next()
-          } catch(err) {
+          } catch (err) {
             console.log('Failed to assign user type because ', err.message)
             res.status(500).json({ message: 'Server Error' })
           }

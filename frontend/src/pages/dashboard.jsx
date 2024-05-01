@@ -35,6 +35,19 @@ const validateData = (data) => {
   return null;
 };
 
+const getLatestBlock = (dataArray) => {
+  let t = { createdAt: null }
+  dataArray.forEach((data) => {
+    if(new Date(t.createdAt).getTime() < new Date(data.createdAt).getTime()) {
+      t = data
+    }
+  })
+  if(!t.createdAt) throw new Error('Invalid Data.')
+  return t
+}
+
+
+
 export default function dashboard() {
   const user = useUserStore((state) => state.user);
   const user_type = useUserStore((state) => state.user_type)
@@ -94,6 +107,18 @@ export default function dashboard() {
       });
     }
   };
+
+  const showAprooveButton = (proposal) => {
+    const latestChain = getLatestBlock(proposal.updates)
+    for(let i=0; i<latestChain.progress.length; i++) {
+      var blk = latestChain.progress[i]
+      if(blk.status === "waiting" ) {
+        if(blk.user !== user_type) return false
+        else return true
+      }
+    }
+    return false
+  }
 
   return (
     <>
@@ -223,7 +248,7 @@ export default function dashboard() {
                                 Amount:{" "}
                                 <span className="font-normal">
                                   {" "}
-                                  ${val.amount}
+                                  ₹{val.amount}
                                 </span>
                               </span>
                               <span className="text-sm font-medium">
@@ -240,7 +265,7 @@ export default function dashboard() {
                               <span className="text-md">{val.club.name}</span>
                             </div>
                           </div>
-                          { user_type && user_type.includes("CSAP") && (
+                          { user_type && showAprooveButton(val) && (
                               <div className="flex gap-2 z-50">
                                 <Button
                                   onClick={(e) => {

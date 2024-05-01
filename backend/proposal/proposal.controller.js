@@ -1,5 +1,5 @@
 const Club = require("../club/club.module");
-const { getLatestBlock, populateApprovalChain } = require("../utils");
+const { getLatestBlock, populateApprovalChain, nextApprovalBlock } = require("../utils");
 const Proposal = require("./proposal.module");
 
 let proposalController = {};
@@ -103,6 +103,18 @@ proposalController.deleteProposal = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
+// proposalController.approveProposal = async (req, res, next) => {
+//   try {
+//     const proposal = await Proposal.findById(req.param.id, '_id updates').populate('club', '_id name society').populate('club.society', '_id name')
+//     if(!proposal) next(new Error("No such Proposal."))
+
+//     const latestChain = getLatestBlock(proposal.updates)
+//     const currentBlock = getLatestBlock(latestChain.progress)
+//     const nextBlk = nextApprovalBlock()
+//   }
+// }
+
 
 proposalController.approveBySecretary = async (req, res) => {
   try {

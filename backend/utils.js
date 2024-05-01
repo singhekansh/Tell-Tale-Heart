@@ -128,7 +128,7 @@ const getLatestBlock = (dataArray) => {
 
 module.exports = {
   checkErrors,
-  // nextApprovalBlock,
+  nextApprovalBlock,
   populateApprovalChain,
   checkSocietyExists,
   getLatestBlock
