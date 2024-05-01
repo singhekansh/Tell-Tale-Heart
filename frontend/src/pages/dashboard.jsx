@@ -22,6 +22,7 @@ import { toast } from "@/components/ui/use-toast";
 import { ApiWithAuth } from "@/lib/axios";
 import Loading from "@/components/Loading";
 import { DateTime } from "luxon";
+import ApprovalModal from "@/components/ApproveModal"
 
 const validateData = (data) => {
   if(!data.title) return "Please enter title."
@@ -70,6 +71,9 @@ export default function dashboard() {
   const Status = ["Create Proposal", "Pending", "In Review", "Past"];
   const [status, setStatus] = useState(Status[1]);
   const [proposalmodal, setProposalModal] = useState(false);
+  const [approvalModal, setApprovalModal] = useState(false);
+  const [currentProposal, setCurrentProposal] = useState(null);
+  const [isApproval, setIsApproval] = useState(true);
 
   const handleStatus = (val) => {
     setStatus(val);
@@ -119,6 +123,48 @@ export default function dashboard() {
     }
     return false
   }
+
+  const approveProposal = async (data) => {
+    if(!data.remark) return toast({ title: 'Please enter remark.' }) 
+    if(!currentProposal) return toast({ title: 'Something went wrong. Please reload.' })
+
+    try {
+      const res = (await ApiWithAuth.post(`/proposal/approve/${currentProposal}`, data)).data;
+      console.log(`POST /proposal/approve/${currentProposal}: `, res);
+      toast({ title: res.message })
+      getProposals();
+      setApprovalModal(false)
+      setCurrentProposal(null)
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message;
+      console.error(`POST /proposal/approve/${currentProposal}: `, error);
+      toast({
+        title: "Failed to create new proposal",
+        description: error,
+      });
+    }
+  };
+
+  const rejectProposal = async (data) => {
+    if(!data.remark) return toast({ title: 'Please enter remark.' }) 
+    if(!currentProposal) return toast({ title: 'Something went wrong. Please reload.' })
+
+    try {
+      const res = (await ApiWithAuth.post(`/proposal/reject/${currentProposal}`, data)).data;
+      console.log(`POST /proposal/reject/${currentProposal}: `, res);
+      toast({ title: res.message })
+      getProposals();
+      setApprovalModal(false)
+      setCurrentProposal(null)
+    } catch (err) {
+      let error = err?.response?.data?.message || err.message;
+      console.error(`POST /proposal/reject/${currentProposal}: `, error);
+      toast({
+        title: "Failed to reject Proposal",
+        description: error,
+      });
+    }
+  };
 
   return (
     <>
@@ -270,6 +316,9 @@ export default function dashboard() {
                                 <Button
                                   onClick={(e) => {
                                     e.stopPropagation();
+                                    setIsApproval(false)
+                                    setCurrentProposal(val._id)
+                                    setApprovalModal(true)
                                   }}
                                   variant="destructive"
                                 >
@@ -278,6 +327,9 @@ export default function dashboard() {
                                 <Button
                                   onClick={(e) => {
                                     e.stopPropagation();
+                                    setIsApproval(true)
+                                    setCurrentProposal(val._id);
+                                    setApprovalModal(true)
                                   }}
                                   variant="secondary"
                                 >
@@ -366,6 +418,7 @@ export default function dashboard() {
         </div>
 
         <AddProposal modal={proposalmodal} setModal={setProposalModal} submit={addProposals} />
+        <ApprovalModal modal={approvalModal} setModal={setApprovalModal} approveProposal={approveProposal} rejectProposal={rejectProposal} isApproval={isApproval} />
       </div>
     </>
   );

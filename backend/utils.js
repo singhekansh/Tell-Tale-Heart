@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 const { validationResult } = require('express-validator')
 const Society = require('./society/society.module')
 const Club = require('./club/club.module')
@@ -11,13 +13,13 @@ const checkErrors = (req, res, next) => {
   }
 }
 
-const nextApprovalBlock = (progressChain, proposalBudget, clubName, societyName, isClubBudgetExceeded, isSocietyBudgetExceeded) => {
+const nextApprovalBlock = (progressChain, proposalBudget, clubName, societyName, assignIds = true) => {
   const latestBlk = getLatestBlock(progressChain);
+  let data = null;
 
   if(latestBlk.user_type === "club") {
-    if(latestBlk.status === "approved") 
-      progressChain.push({ 
-        _id: `${Math.random()}`, 
+    if(latestBlk.status === "approved") {}
+      data = ({ 
         user: proposalBudget > 15000 ? `Secretary - ${societyName}` : `FA - ${clubName}`, 
         user_type: proposalBudget > 15000 ? "secretary" : `club_fa` , 
         status: "waiting", 
@@ -28,8 +30,7 @@ const nextApprovalBlock = (progressChain, proposalBudget, clubName, societyName,
 
   else if(latestBlk.user_type === "secretary") {
     if(latestBlk.status === "approved" || latestBlk.status === "waiting") 
-      progressChain.push({ 
-        _id: `${Math.random()}`, 
+      data = ({ 
         user: `FA - ${clubName}`, 
         user_type: "club_fa", 
         status: "waiting", 
@@ -40,8 +41,7 @@ const nextApprovalBlock = (progressChain, proposalBudget, clubName, societyName,
 
   else if(latestBlk.user_type === "club_fa") {
     if(latestBlk.status === "approved" || latestBlk.status === "waiting") 
-      progressChain.push({ 
-        _id: `${Math.random()}`, 
+      data = ({ 
         user: `FA - ${societyName}`, 
         user_type: "society_fa", 
         status: "waiting", 
@@ -52,8 +52,7 @@ const nextApprovalBlock = (progressChain, proposalBudget, clubName, societyName,
   else if(latestBlk.user_type === "society_fa") {
     if(proposalBudget <= 15000) return null
     if(latestBlk.status === "approved" || latestBlk.status === "waiting") 
-      progressChain.push({ 
-        _id: `${Math.random()}`,
+      data = ({ 
         user: `Chair CSAP`, 
         user_type: "csap", 
         status: "waiting", 
@@ -64,8 +63,7 @@ const nextApprovalBlock = (progressChain, proposalBudget, clubName, societyName,
   else if(latestBlk.user_type === "csap") {
     if(proposalBudget <= 50000) return null
     if(latestBlk.status === "approved" || latestBlk.status === "waiting") 
-      progressChain.push({ 
-        _id: `${Math.random()}`,
+      data = ({ 
         user: `Dean Students`, 
         user_type: `dean_students`, 
         status: "waiting", 
@@ -73,10 +71,11 @@ const nextApprovalBlock = (progressChain, proposalBudget, clubName, societyName,
         createdAt: new Date().toISOString()
       })
   } 
-  else if(latestBlk.user_type === "dean_students") {
+  else {
     return null
   } 
-
+  data._id = new mongoose.Types.ObjectId()
+  progressChain.push(data)
   return progressChain
 }
  

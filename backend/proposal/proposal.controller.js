@@ -94,7 +94,7 @@ proposalController.updateProposal = async (req, res) => {
 
 proposalController.deleteProposal = async (req, res) => {
   try {
-    const data = await Proposal.findByIdAndDelete(req.param.id);
+    const data = await Proposal.findByIdAndDelete(req.params.id);
     return res.json({
       message: `${data.name} proposal delete successfully.`,
       data,
@@ -104,117 +104,65 @@ proposalController.deleteProposal = async (req, res) => {
   }
 };
 
-// proposalController.approveProposal = async (req, res, next) => {
-//   try {
-//     const proposal = await Proposal.findById(req.param.id, '_id updates').populate('club', '_id name society').populate('club.society', '_id name')
-//     if(!proposal) next(new Error("No such Proposal."))
-
-//     const latestChain = getLatestBlock(proposal.updates)
-//     const currentBlock = getLatestBlock(latestChain.progress)
-//     const nextBlk = nextApprovalBlock()
-//   }
-// }
-
-
-proposalController.approveBySecretary = async (req, res) => {
+proposalController.approveProposal = async (req, res, next) => {
   try {
-    if (!req.user_type.contains('Secretary'))
-      return res.status(401).json({ message: 'You are not authorized.' })
+    const proposal = await Proposal.findById(req.params.id, '_id updates club amount').populate('club', '_id name society').populate('club.society', '_id name')
+    if(!proposal) return next(new Error("No such Proposal."))
 
-    const proposal = await Proposal.findById(req.params.id)
-    const updateChain = getLatestBlock(proposal.updates)
-    const progressBlock = getLatestBlock(updateChain.progress)
-
-    if (progressBlock.user_type.contains('Cordinator') && progressBlock.status === 'Approved') {
-      updateChain.push({ user: req.user, user_type: req.user_type, status: 'Approved', remark: req.body.remark })
-      const updatedProposal = await proposal.save()
-      return res.json({ message: 'success', data: updatedProposal })
-    } else {
-      return res.status(500).json({ message: 'You are not allowed to approve yet.' })
+    const latestChain = getLatestBlock(proposal.updates)
+    const proposedChain = nextApprovalBlock(latestChain.progress, proposal.amount, proposal.club.name, proposal.club.society.name, assignIds = false)
+    
+    if(!proposedChain) {
+      return next(new Error("Proposal has already been terminated."))
     }
-  } catch (err) {
-    return res.status(500).json({ message: err.message })
+    const blk = getLatestBlock(proposedChain)
+    if(blk.user === req.user_type) {
+      blk.status = "approved"
+      blk.remark = req.body.remark ?? ""
+      await proposal.save()
+      return res.json({ message: "Proposal approved." })
+    } else {
+      return next(new Error("You are not authorized to do this action."))
+    } 
+  } catch(err) {
+    console.log(err)
+    return next(err)
   }
 }
 
-proposalController.approveByClubFA = async (req, res) => {
+proposalController.rejectProposal = async (req, res, next) => {
   try {
-    if (!req.user_type.contains('Club FA'))
-      return res.status(401).json({ message: 'You are not authorized.' })
+    const proposal = await Proposal.findById(req.params.id, '_id updates club amount').populate('club', '_id name society').populate('club.society', '_id name')
+    if(!proposal) return next(new Error("No such Proposal."))
 
-    const proposal = await Proposal.findById(req.params.id)
-    const updateChain = getLatestBlock(proposal.updates)
-    const progressBlock = getLatestBlock(updateChain.progress)
-
-    if (progressBlock.user_type.contains('Secretary') && progressBlock.status === 'Approved') {
-      updateChain.push({ user: req.user, user_type: req.user_type, status: 'Approved', remark: req.body.remark })
-      const updatedProposal = await proposal.save()
-      return res.json({ message: 'success', data: updatedProposal })
-    } else {
-      return res.status(500).json({ message: 'You are not allowed to approve yet.' })
+    const latestChain = getLatestBlock(proposal.updates)
+    const proposedChain = nextApprovalBlock(latestChain.progress, proposal.amount, proposal.club.name, proposal.club.society.name, assignIds = false)
+    
+    if(!proposedChain) {
+      return next(new Error("Proposal has already been terminated."))
     }
-  } catch (err) {
-    return res.status(500).json({ message: err.message })
-  }
-}
+    const blk = getLatestBlock(proposedChain)
+    if(blk.user === req.user_type) {
+      blk.status = "rejected"
+      blk.remark = req.body.remark ?? ""
 
-proposalController.approveBySocietyFA = async (req, res) => {
-  try {
-    if (!req.user_type.contains('Society FA'))
-      return res.status(401).json({ message: 'You are not authorized.' })
-    const proposal = await Proposal.findById(req.params.id)
-    const updateChain = getLatestBlock(proposal.updates)
-    const progressBlock = getLatestBlock(updateChain.progress)
+      proposal.updates.push({
+        progress: {
+          user: proposedChain[0].user,
+          user_type: proposedChain[0].user_type,
+          remark: "",
+          status: 'waiting'
+        }
+      })
 
-    if (progressBlock.user_type.contains('Club FA') && progressBlock.status === 'Approved') {
-      updateChain.push({ user: req.user, user_type: req.user_type, status: 'Approved', remark: req.body.remark })
-      const updatedProposal = await proposal.save()
-      return res.json({ message: 'success', data: updatedProposal })
+      await proposal.save()
+      return res.json({ message: "Proposal rejected." })
     } else {
-      return res.status(500).json({ message: 'You are not allowed to approve yet.' })
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message })
-  }
-}
-
-proposalController.approveByCSAP = async (req, res) => {
-  try {
-    if (!req.user_type.contains('CSAP'))
-      return res.status(401).json({ message: 'You are not authorized.' })
-    const proposal = await Proposal.findById(req.params.id)
-    const updateChain = getLatestBlock(proposal.updates)
-    const progressBlock = getLatestBlock(updateChain.progress)
-
-    if (progressBlock.user_type.contains('Society FA') && progressBlock.status === 'Approved') {
-      updateChain.push({ user: req.user, user_type: req.user_type, status: 'Approved', remark: req.body.remark })
-      const updatedProposal = await proposal.save()
-      return res.json({ message: 'success', data: updatedProposal })
-    } else {
-      return res.status(500).json({ message: 'You are not allowed to approve yet.' })
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message })
-  }
-}
-
-proposalController.approveByDeanStudents = async (req, res) => {
-  try {
-    if (!req.user_type.contains('Dean Students'))
-      return res.status(401).json({ message: 'You are not authorized.' })
-    const proposal = await Proposal.findById(req.params.id)
-    const updateChain = getLatestBlock(proposal.updates)
-    const progressBlock = getLatestBlock(updateChain.progress)
-
-    if (progressBlock.user_type.contains('CSAP') && progressBlock.status === 'Approved') {
-      updateChain.push({ user: req.user, user_type: req.user_type, status: 'Approved', remark: req.body.remark })
-      const updatedProposal = await proposal.save()
-      return res.json({ message: 'success', data: updatedProposal })
-    } else {
-      return res.status(500).json({ message: 'You are not allowed to approve yet.' })
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message })
+      return next(new Error("You are not authorized to do this action."))
+    } 
+  } catch(err) {
+    console.log(err)
+    return next(err)
   }
 }
 

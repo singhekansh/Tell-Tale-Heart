@@ -4,54 +4,40 @@ const proposalValidators = require('./proposal.validator')
 const proposalRouter = Router()
 const { checkErrors } = require('../utils')
 
-proposalRouter.get('/',  
+proposalRouter.get('/',
   proposalValidators.getAllProposals,
   checkErrors,
-  proposalController.getAllProposals)
+  proposalController.getAllProposals
+)
 
 proposalRouter.post('/',
   proposalValidators.createNewProposal,
   checkErrors,
-  proposalController.createNewProposal)
+  proposalController.createNewProposal
+)
 
-proposalRouter.put('/:id', 
+proposalRouter.put('/:id',
   proposalValidators.updateProposal,
   checkErrors,
-  proposalController.updateProposal)
+  proposalController.updateProposal
+)
 
-proposalRouter.delete('/:id', 
+proposalRouter.delete('/:id',
   proposalValidators.deleteProposal,
   checkErrors,
-  proposalController.deleteProposal)
-
-proposalRouter.post('/approveBySecretary/:id',
-  proposalValidators.approveBySecretary,
-  checkErrors,
-  proposalController.approveBySecretary
+  proposalController.deleteProposal
 )
 
-proposalRouter.post('/approveByClubFA/:id',
-  proposalValidators.approveByClubFA,
+proposalRouter.post('/approve/:id',
+  proposalValidators.approveProposal,
   checkErrors,
-  proposalController.approveByClubFA
+  proposalController.approveProposal
 )
 
-proposalRouter.post('/approveBySocietyFA/:id',
-  proposalValidators.approveBySocietyFA,
+proposalRouter.post('/reject/:id',
+  proposalValidators.rejectProposal,
   checkErrors,
-  proposalController.approveBySocietyFA
-)
-
-proposalRouter.post('/approveByCSAP/:id',
-  proposalValidators.approveByCSAP,
-  checkErrors,
-  proposalController.approveByCSAP
-)
-
-proposalRouter.post('/approveByDeanStudents/:id',
-  proposalValidators.approveByDeanStudents,
-  checkErrors,
-  proposalController.approveByDeanStudents
+  proposalController.rejectProposal
 )
 
 module.exports = proposalRouter

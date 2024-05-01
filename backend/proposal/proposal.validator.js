@@ -119,49 +119,22 @@ proposalValidators.deleteProposal = [
     .withMessage('Invalid Request.'),
 ];
 
-proposalValidators.approveBySecretary = [
+proposalValidators.approveProposal = [
   param('id')
     .notEmpty()
     .withMessage('Invalid Request.'),
-  body('remark')
-    .isString()
-    .withMessage("Invalid remark.")
+  body("remark")
+    .notEmpty()
+    .withMessage('Please enter your remark')
 ]
 
-proposalValidators.approveByClubFA = [
+proposalValidators.rejectProposal = [
   param('id')
     .notEmpty()
     .withMessage('Invalid Request.'),
-  body('remark')
-    .isString()
-    .withMessage("Invalid remark.")
-]
-
-proposalValidators.approveBySocietyFA = [
-  param('id')
+  body("remark")
     .notEmpty()
-    .withMessage('Invalid Request.'),
-  body('remark')
-    .isString()
-    .withMessage("Invalid remark.")
-]
-
-proposalValidators.approveByCSAP = [
-  param('id')
-    .notEmpty()
-    .withMessage('Invalid Request.'),
-  body('remark')
-    .isString()
-    .withMessage("Invalid remark.")
-]
-
-proposalValidators.approveByDeanStudents = [
-  param('id')
-    .notEmpty()
-    .withMessage('Invalid Request'),
-  body('remark')
-    .isString()
-    .withMessage('Invalid remark.')
+    .withMessage('Please enter your remark')
 ]
 
 module.exports = proposalValidators;

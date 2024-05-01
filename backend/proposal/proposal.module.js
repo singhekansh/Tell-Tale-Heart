@@ -12,7 +12,7 @@ const ProgressSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ["approved", "rejected"]
+    enum: ["approved", "rejected", "waiting"]
   },
   remark: {
     type: String,
