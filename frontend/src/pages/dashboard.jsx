@@ -180,7 +180,7 @@ export default function dashboard() {
               >
                 <div className="flex flex-col gap-1 py-1 pl-2 w-full">
                   <span className={` text-2xl font-semibold ${status === Status[1] ?'text-white' :'text-slate-600' }`}>
-                    0
+                    {proposals.length}
                   </span>
                   <div className="flex justify-between">
                     <span className=" text-sm font-medium">{Status[1]}</span>
